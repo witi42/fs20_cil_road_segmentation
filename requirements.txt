@@ -1,0 +1,13 @@
+#conda install --file requirements.txt
+
+python=3.6
+numpy
+pillow
+matplotlib
+tensorflow=2.0.0
+#tensorflow-gpu=2.0.0
+jupyterlab
+scikit-learn
+scikit-image
+pandas
+tqdm
