@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import glob
 import numpy as np
 import matplotlib.image as mpimg
 import re
@@ -39,8 +40,12 @@ def masks_to_submission(submission_filename, *image_filenames):
 if __name__ == '__main__':
     submission_filename = 'dummy_submission.csv'
     image_filenames = []
-    for i in range(1, 51):
-        image_filename = 'training/groundtruth/satImage_' + '%.3d' % i + '.png'
-        print image_filename
-        image_filenames.append(image_filename)
+
+    #added
+    image_filenames = glob.glob('../output/*.png')
+
+    # for i in range(1, 51):
+    #     image_filename = '../input/training/groundtruth/satImage_' + '%.3d' % i + '.png'
+    #     print(image_filename)
+    #     image_filenames.append(image_filename)
     masks_to_submission(submission_filename, *image_filenames)

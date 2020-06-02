@@ -29,8 +29,8 @@ def get_training_data(rotate=False, resize=None) -> (np.ndarray, np.ndarray):
     x_files = glob.glob('input/training/images/*.png')
     y_files = glob.glob('input/training/groundtruth/*.png')
 
-    x = np_from_files(sorted(x_files), rotate=rotate, resize=resize)
-    y = np_from_files(sorted(y_files), rotate=rotate, resize=resize)
+    x = np_from_files(x_files, rotate=rotate, resize=resize)
+    y = np_from_files(y_files, rotate=rotate, resize=resize)
 
     return x, y
 
@@ -38,6 +38,6 @@ def get_training_data(rotate=False, resize=None) -> (np.ndarray, np.ndarray):
 def get_test_data(resize=None) -> np.ndarray:
     x_files = glob.glob('input/test_images/*.png')
 
-    x = np_from_files(sorted(x_files), rotate=False, resize=resize)
+    x = np_from_files(x_files, rotate=False, resize=resize)
 
-    return x
+    return x, x_files

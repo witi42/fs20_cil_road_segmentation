@@ -88,11 +88,11 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS):
     return model
 
 
-def fit(X_train, Y_train, model, epochs=100, validation_split=0.1):
-    earlystopper = EarlyStopping(patience=15, verbose=1)
+def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, class_weight=None):
+    earlystopper = EarlyStopping(patience=30, verbose=1)
     checkpointer = ModelCheckpoint('model_unet_checkpoint.h5', verbose=1, save_best_only=True)
-    results = model.fit(X_train, Y_train, validation_split=validation_split, batch_size=16, epochs=epochs,
-                        callbacks=[earlystopper, checkpointer])
+    results = model.fit(X_train, Y_train, validation_split=validation_split, batch_size=8, epochs=epochs,
+                        callbacks=[earlystopper, checkpointer], class_weight=class_weight)
 
 def load():
     return load_model('model_unet_checkpoint.h5')
