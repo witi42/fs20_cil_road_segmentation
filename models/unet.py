@@ -93,6 +93,7 @@ def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, class_weight=
     checkpointer = ModelCheckpoint('model_unet_checkpoint.h5', verbose=1, save_best_only=True)
     results = model.fit(X_train, Y_train, validation_split=validation_split, batch_size=8, epochs=epochs,
                         callbacks=[earlystopper, checkpointer], class_weight=class_weight)
+    return results
 
 def load():
     return load_model('model_unet_checkpoint.h5')
