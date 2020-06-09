@@ -11,9 +11,9 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS):
     inputs = Input((IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS))
-    s = Lambda(lambda x: x / 255)(inputs)
+    #s = Lambda(lambda x: x / 255)(inputs)
 
-    c1 = Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(s)
+    c1 = Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(inputs)
     c1 = BatchNormalization()(c1)
     c1 = Dropout(0.1)(c1)
     c1 = Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c1)
@@ -82,20 +82,20 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS):
     outputs = Conv2D(1, (1, 1), activation='sigmoid')(c9)
 
     model = Model(inputs=[inputs], outputs=[outputs])
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-    model.summary()
+    #model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    #model.summary()
 
     return model
 
 
 def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, class_weight=None):
-    earlystopper = EarlyStopping(patience=30, verbose=1)
-    checkpointer = ModelCheckpoint('model_unet_checkpoint.h5', verbose=1, save_best_only=True)
+    earlystopper = EarlyStopping(patience=20, verbose=1)
+    checkpointer = ModelCheckpoint('checkpoints/unet.h5', verbose=1, save_best_only=True)
     results = model.fit(X_train, Y_train, validation_split=validation_split, batch_size=8, epochs=epochs,
                         callbacks=[earlystopper, checkpointer], class_weight=class_weight)
 
 def load():
-    return load_model('model_unet_checkpoint.h5')
+    return load_model('checkpoints/unet.h5')
 
     # # Fit model
     # earlystopper = EarlyStopping(patience=15, verbose=1)
