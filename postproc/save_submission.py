@@ -43,6 +43,9 @@ def save_predictions(predictions, test_names, submission_name, path='', allow_ov
     """
     Saves all the predictions from an array as images and creates the submission file.
 
+    IMPORTANT!! path name should not contain numbers, otherwise the other functions down the line get
+    confused with getting the image ids.
+
     :param predictions: ndarray the predicted image results (\in [0,1])
     :param test_names: the names of the predictions, in the same order as the predictions
     :param submission_name: the name of the folder to save the resulting images and submission file in
@@ -50,13 +53,17 @@ def save_predictions(predictions, test_names, submission_name, path='', allow_ov
     :param allow_overwrite: bool: If true, the data in the folder may be overridden, otherwise, it mayn't.
     :return: nothing
     """
-    if not path[-1] == "/":
+    if len(path) > 0 and path[-1] != "/":
         path = path + "/"
 
+    if any(char.isdigit() for char in   path + submission_name):
+        raise ValueError("Filepath may not contain numbers")
+
     os.makedirs(path + submission_name, exist_ok=allow_overwrite)
-    for i in range(len(test_names)):
+    n = len(test_names)
+    for i in range(n):
         name = test_names[i][18:]
-        print(name + "\r")
+        print("\r{}/{}, {}".format(i, n, name), end='')
 
         pred = predictions[i].reshape(608, 608)
         pred = (pred > 0.5).astype(np.uint8)
