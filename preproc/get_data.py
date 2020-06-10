@@ -40,6 +40,7 @@ def get_training_data(rotate=False, resize=None, parent_folder='input') -> (np.n
 
 def get_test_data(resize=None) -> np.ndarray:
     x_files = glob.glob('input/test_images/*.png')
+    x_files.sort()
 
     x = np_from_files(x_files, rotate=False, resize=resize)
 
