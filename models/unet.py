@@ -10,7 +10,15 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import datetime
 
 
-def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS):
+def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
+    """
+
+    :param IMG_HEIGHT:
+    :param IMG_WIDTH:
+    :param IMG_CHANNELS:
+    :param do_compile: whether or not to compile the model yet
+    :return:
+    """
     inputs = Input((IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS))
     #s = Lambda(lambda x: x / 255)(inputs)
 
@@ -83,14 +91,15 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS):
     outputs = Conv2D(1, (1, 1), activation='sigmoid')(c9)
 
     model = Model(inputs=[inputs], outputs=[outputs])
-    #model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    if do_compile:
+        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     #model.summary()
 
     return model
 
 
-def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, class_weight=None, checkpoint_datetime=False,
-        checkpoint_suffix=""):
+def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, validation_data=None, class_weight=None,
+        checkpoint_datetime=False,checkpoint_suffix=""):
     """
 
     :param X_train: The training data
@@ -98,6 +107,7 @@ def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, class_weight=
     :param model: The tf keras model to train
     :param epochs: the number of epochs to train
     :param validation_split: percentage of data to use as validation
+    :param validation_data: tuple of (X_val, y_val) validation data to use
     :param class_weight: weights for the classes in the loss function
     :param checkpoint_datetime: whether or not to append the current date and time to the checkpoints
     :param checkpoint_suffix: a optional string to append to the checkpoints
@@ -109,6 +119,7 @@ def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, class_weight=
         suffix += str(datetime.datetime.now())
     checkpointer = ModelCheckpoint('checkpoints/unet{}.h5'.format(suffix), verbose=1, save_best_only=True)
     results = model.fit(X_train, Y_train, validation_split=validation_split, batch_size=8, epochs=epochs,
+                        validation_data=validation_data,
                         callbacks=[earlystopper, checkpointer], class_weight=class_weight)
     return results
 
