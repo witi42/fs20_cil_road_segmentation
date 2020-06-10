@@ -31,6 +31,7 @@ def get_training_data(rotate=False, resize=None) -> (np.ndarray, np.ndarray):
 
     x = np_from_files(x_files, rotate=rotate, resize=resize)
     y = np_from_files(y_files, rotate=rotate, resize=resize)
+    y = (y > 42).astype(np.uint8)
 
     return x, y
 
