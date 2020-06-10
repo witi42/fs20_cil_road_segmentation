@@ -25,9 +25,9 @@ def one_or_zero(v):
     return np.venp.vectorize(lambda x: 1.0 if x > 10 else 0.0)
 
 
-def get_training_data(rotate=False, resize=None) -> (np.ndarray, np.ndarray):
-    x_files = glob.glob('input/training/images/*.png')
-    y_files = glob.glob('input/training/groundtruth/*.png')
+def get_training_data(rotate=False, resize=None, parent_folder='input') -> (np.ndarray, np.ndarray):
+    x_files = glob.glob(parent_folder + '/training/images/*.png')
+    y_files = glob.glob(parent_folder + '/training/groundtruth/*.png')
 
     x = np_from_files(x_files, rotate=rotate, resize=resize)
     y = np_from_files(y_files, rotate=rotate, resize=resize)
