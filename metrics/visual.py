@@ -23,6 +23,11 @@ def plot(images, labels=None, title=None):
 
 
 def plot_training_history(history):
+    """
+    Takes a history object that the fit method returned and plots the training and validation loss / accuracy.
+    :param history: The history object returned by tf.fit
+    :return: nothing
+    """
     # From tf tutoial
     acc = history.history['accuracy']
     val_acc = history.history['val_accuracy']

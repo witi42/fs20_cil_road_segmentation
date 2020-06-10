@@ -7,6 +7,7 @@ from tensorflow.keras.layers import Conv2D, Conv2DTranspose, BatchNormalization
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import concatenate
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+import datetime
 
 
 def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS):
@@ -88,15 +89,32 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS):
     return model
 
 
-def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, class_weight=None):
+def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, class_weight=None, checkpoint_datetime=False,
+        checkpoint_suffix=""):
+    """
+
+    :param X_train: The training data
+    :param Y_train: The training labels
+    :param model: The tf keras model to train
+    :param epochs: the number of epochs to train
+    :param validation_split: percentage of data to use as validation
+    :param class_weight: weights for the classes in the loss function
+    :param checkpoint_datetime: whether or not to append the current date and time to the checkpoints
+    :param checkpoint_suffix: a optional string to append to the checkpoints
+    :return: the results object
+    """
     earlystopper = EarlyStopping(patience=20, verbose=1)
-    checkpointer = ModelCheckpoint('checkpoints/unet.h5', verbose=1, save_best_only=True)
+    suffix = checkpoint_suffix
+    if checkpoint_datetime:
+        suffix += str(datetime.datetime.now())
+    checkpointer = ModelCheckpoint('checkpoints/unet{}.h5'.format(suffix), verbose=1, save_best_only=True)
     results = model.fit(X_train, Y_train, validation_split=validation_split, batch_size=8, epochs=epochs,
                         callbacks=[earlystopper, checkpointer], class_weight=class_weight)
     return results
 
-def load():
-    return load_model('checkpoints/unet.h5')
+
+def load(filename='checkpoints/unet.h5'):
+    return load_model(filename)
 
     # # Fit model
     # earlystopper = EarlyStopping(patience=15, verbose=1)
