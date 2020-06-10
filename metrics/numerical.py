@@ -19,7 +19,7 @@ def accuracy(y_true: np.ndarray, y_pred: np.ndarray):
 
     if len(np.unique(y_pred)) > 2:
         raise ValueError("y_pred should only be zeros and ones")
-    
+
     n, h, w = y_true.shape
     agreement = y_true == y_pred
 
