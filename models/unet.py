@@ -99,7 +99,7 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
 
 
 def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, validation_data=None, class_weight=None,
-        checkpoint_datetime=False,checkpoint_suffix=""):
+        checkpoint_datetime=False,checkpoint_suffix="",batch_size=8):
     """
 
     :param X_train: The training data
@@ -118,7 +118,7 @@ def fit(X_train, Y_train, model, epochs=100, validation_split=0.1, validation_da
     if checkpoint_datetime:
         suffix += str(datetime.datetime.now())
     checkpointer = ModelCheckpoint('checkpoints/unet{}.h5'.format(suffix), verbose=1, save_best_only=True)
-    results = model.fit(X_train, Y_train, validation_split=validation_split, batch_size=8, epochs=epochs,
+    results = model.fit(X_train, Y_train, validation_split=validation_split, batch_size=batch_size, epochs=epochs,
                         validation_data=validation_data,
                         callbacks=[earlystopper, checkpointer], class_weight=class_weight)
     return results
