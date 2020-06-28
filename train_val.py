@@ -6,10 +6,13 @@ import preproc.get_data as data
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
+# random seed for cross-validation
+random_state = 426912378
 
-def fit(model, X_train, Y_train, epochs=50, validation_split=0, validation_data=None, class_weight=None,
+
+def fit(model, X_train, Y_train, epochs=100, validation_split=0, validation_data=None, class_weight=None,
         checkpoint_datetime=False, checkpoint_suffix="", batch_size=8):
-    earlystopper = EarlyStopping(patience=10, verbose=2)
+    earlystopper = EarlyStopping(patience=9, verbose=2)
     suffix = checkpoint_suffix
     if checkpoint_datetime:
         suffix += str(datetime.datetime.now())
@@ -32,9 +35,6 @@ def get_min_index(l):
 def cross_val(model, model_name, class_weight=None):
     x, y = data.get_training_data()
     x_norm = x / 255.0
-
-    # random seed for cross-validation
-    random_state = 426912378
 
     kf = KFold(n_splits=5, shuffle=True, random_state=random_state)
 
@@ -69,6 +69,8 @@ def cross_val(model, model_name, class_weight=None):
     print("model_name: " + model_name)
     print("optimizer: " + str(model.optimizer))
     print("loss: " + str(model.loss))
+    print("epoches: 100, early_stopping_patience = 9")
+    print("cross_val_seed: " + random_state)
     print("AVERAGE-METRICS")
     print(average)
 
