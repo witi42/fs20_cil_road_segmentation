@@ -66,10 +66,10 @@ def cross_val(model, model_name, class_weight=None):
         average[k] /= len(histories)
 
     print("\nCross-Validation")
-    print("model: " + model_name)
+    print("model_name: " + model_name)
     print("optimizer: " + str(model.optimizer))
     print("loss: " + str(model.loss))
-    print("\nAVERAGE-METRICS")
+    print("AVERAGE-METRICS")
     print(average)
 
 

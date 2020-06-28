@@ -1,0 +1,8 @@
+Results of Cross Validation:
+
+model: u_net_cross_entropy
+optimizer: <tensorflow.python.keras.optimizer_v2.adam.Adam object at 0x00000244B1121F28>
+loss: binary_crossentropy
+AVERAGE-METRICS
+{'loss': 0.03761380322277545, 'accuracy': 0.9858795166015625, 'mean_io_u': 0.6380269050598144, 'val_loss': 0.33328472234308715, 'val_accuracy': 0.9333305358886719, 'val_mean_io_u': 0.6497506141662598}
+
