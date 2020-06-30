@@ -40,6 +40,7 @@ def cross_val(model, model_name, class_weight=None):
 
     histories = []
     index = 0
+    reset_weights = model.get_weights()  # for reseting the model weights
     for train_index, test_index in kf.split(x_norm):
         x_train, x_test = x_norm[train_index], x_norm[test_index]
         y_train, y_test = y[train_index], y[test_index]
@@ -49,6 +50,7 @@ def cross_val(model, model_name, class_weight=None):
                              class_weight=class_weight))
 
         index += 1
+        model.set_weights(reset_weights)  # reset the model weights
 
     # get used metrics
     keys = histories[0].history.keys()
