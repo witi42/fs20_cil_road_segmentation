@@ -5,22 +5,24 @@ import preproc.get_data as data
 
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+import os
 
 # random seed for cross-validation
 random_state = 426912378
 
 
 def fit(model, X_train, Y_train, epochs=100, validation_split=0, validation_data=None, class_weight=None,
-        checkpoint_datetime=False, checkpoint_suffix="", batch_size=8):
+        checkpoint_datetime=False, checkpoint_suffix="", batch_size=8, verbose=2):
     earlystopper = EarlyStopping(patience=9, verbose=2)
     suffix = checkpoint_suffix
     if checkpoint_datetime:
         suffix += str(datetime.datetime.now())
-    checkpointer = ModelCheckpoint('checkpoints/ckp_{}.h5'.format(suffix), verbose=1, save_best_only=True)
+    os.makedirs("cps", exist_ok = True)
+    checkpointer = ModelCheckpoint('cps/ckp_{}.h5'.format(suffix), verbose=1, save_best_only=True)
     results = model.fit(X_train, Y_train, validation_split=validation_split, validation_data=validation_data,
                         batch_size=batch_size, epochs=epochs,
                         callbacks=[earlystopper, checkpointer], class_weight=class_weight,
-                        verbose=2)
+                        verbose=verbose)
     return results
 
 def get_min_index(l):
@@ -32,23 +34,30 @@ def get_min_index(l):
             min_index = index
     return min_index
 
-def cross_val(model, model_name, class_weight=None):
-    x, y = data.get_training_data()
-    x_norm = x / 255.0
-
+def cross_val(model, model_name, load_training_data=True, x=None, y=None, class_weight=None, epochs=100, batch_size=8, verbose=2):
+    if load_training_data:
+        x, y = data.get_training_data()
+        x = x / 255.0
+    
     kf = KFold(n_splits=5, shuffle=True, random_state=random_state)
-
+    
     histories = []
     index = 0
     reset_weights = model.get_weights()  # for reseting the model weights
+    best_losses = []
     for train_index, test_index in kf.split(x_norm):
-        x_train, x_test = x_norm[train_index], x_norm[test_index]
+        x_train, x_test = x[train_index], x[test_index]
         y_train, y_test = y[train_index], y[test_index]
-
-        name = model_name + '_crossval-k' +str(index)
-        histories.append(fit(model, x_train, y_train, validation_data=(x_test, y_test), checkpoint_suffix=name,
-                             class_weight=class_weight))
-
+    
+        name = model_name + '_crossval-k' + str(index)
+        crt_history = fit(model, x_train, y_train, epochs=epochs, validation_data=(x_test, y_test), checkpoint_suffix=name, batch_size=batch_size, verbose=verbose,
+                        class_weight=class_weight)
+        histories.append(crt_history)
+        
+        best_epoch = get_min_index(crt_history.history['loss'])
+        best_loss = crt_history.history['loss'][best_epoch]
+        best_losses.append(best_loss)
+    
         index += 1
         model.set_weights(reset_weights)  # reset the model weights
 
@@ -72,9 +81,16 @@ def cross_val(model, model_name, class_weight=None):
     print("optimizer: " + str(model.optimizer))
     print("loss: " + str(model.loss))
     print("epoches: 100, early_stopping_patience = 9")
-    print("cross_val_seed: " + random_state)
+    print("cross_val_seed: " + str(random_state))
     print("AVERAGE-METRICS")
     print(average)
+
+    # reload best model weights
+    best_model_index = get_min_index(best_losses)
+    model.load_weights("cps/ckp_" + model_name + '_crossval-k' + str(best_model_index) + ".h5")
+    print("best model: cps/ckp_" + model_name + '_crossval-k' + str(best_model_index) + ".h5")
+
+
 
 
 def main():
