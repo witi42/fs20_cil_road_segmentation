@@ -75,6 +75,17 @@ def get_training_validation_data(split=0.2, rotate=False, resize=None, parent_fo
 
 
 
+def get_augmented_training_data(rotate = False, flip = False, size = None) -> (np.ndarray, np.ndarray):
+  x_files = sorted(glob.glob('input/training/augmented/images/*.png'))
+  y_files = sorted(glob.glob('input/training/augmented/groundtruth/*.png'))
+
+  x = np_from_files(x_files, rotate, flip, size)
+  y = np_from_files(y_files, rotate, flip, size)
+  y = (y > 0.5).astype(np.uint8)
+
+  return x, y
+
+
 
 
 def get_test_data(size = None, normalise_x = False) -> (np.ndarray, List[str]) :
