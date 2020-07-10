@@ -9,38 +9,35 @@ from skimage.color import hsv2rgb
 
 
 
-def create_augmented_training_data():
+def create_augmented_training_data(size = None, clear_existing = False, use_grayscale = False, use_blur = False, use_saturated = False, use_desaturated = False):
     path_images = "input/training/augmented/images/"
     path_groundtruth = "input/training/augmented/groundtruth/"
     os.makedirs(path_images, exist_ok = True)
     os.makedirs(path_groundtruth, exist_ok = True)
-    
-    x, y = get_training_data(rotate = False, flip = False, size = (400, 400))
-    
-    # If some augmented data is not wanted anymore, but has already been created, it's necessary to
-    #   delete it from input/training/augmented/, as get_augmented_training_data() would still load it
-    use_grayscale = True
-    use_blur = True
-    use_saturated = True
-    
+
+    if clear_existing:
+        clear_augmented_data()
+
+    x, y = get_training_data(rotate = False, size = size)
+
     for i in range(len(x)):
         print("\r" + str(i) + "/" + str(len(x)), end="")
-        
+    
         img = img_as_ubyte(x[i])
         img_gt = img_as_ubyte(y[i] * 1.0)
-        
+
         if use_grayscale:
             img_gs = img_as_ubyte(gray2rgb(rgb2gray(img)))
             filename_gs = "gs_" + str(i) + ".png"
             imsave(path_images + filename_gs, img_gs)
             imsave(path_groundtruth + filename_gs, img_gt)
-        
+    
         if use_blur:
             img_blur = img_as_ubyte(filters.gaussian(img, sigma = 1.5, multichannel = True))
             filename_blur = "blur_" + str(i) + ".png"  
             imsave(path_images + filename_blur, img_blur)
             imsave(path_groundtruth + filename_blur, img_gt)
-        
+    
         if use_saturated:
             img_sat = rgb2hsv(img)
             img_sat[:, :, 1] = (1 - (1 - img_sat[:, :, 1]) ** 2)
@@ -49,18 +46,48 @@ def create_augmented_training_data():
             imsave(path_images + filename_sat, img_sat)
             imsave(path_groundtruth + filename_sat, img_gt)
 
+        if use_desaturated:
+            img_desat = rgb2hsv(img)
+            img_desat[:, :, 1] = (1 - (1 - img_desat[:, :, 1]) ** 0.5)
+            img_desat = img_as_ubyte(hsv2rgb(img_desat))
+            filename_desat = "desat_" + str(i) + ".png"  
+            imsave(path_images + filename_desat, img_desat)
+            imsave(path_groundtruth + filename_desat, img_gt)
+
   
-  print("\rdone       ")
+    print("\rdone       ")
+
+
+
+def clear_augmented_data():
+    path_images = "input/training/augmented/images/"
+    path_groundtruth = "input/training/augmented/groundtruth/"
+    for path in [path_images, path_groundtruth]:
+        files = glob.glob(path + '*.png')
+        for f in files:
+            os.remove(f)
 
 
 
 
 
 if __name__ == "__main__":
-    create_augmented_training_data()
-    x_aug, y_aug = get_augmented_training_data(rotate = False, size = (224, 224))
+    USE_AUGMENTED_DATA = True
 
-    print(x_aug.shape)
-    print(y_aug.shape)
+    x, y = get_training_data(rotate = True, flip = True, size = DATA_SIZE)
+    x_test, x_test_names = get_test_data(size = DATA_SIZE)
 
-    print(y_aug[1, 100:110,100:110])
+    if USE_AUGMENTED_DATA:
+        create_augmented_training_data(DATA_SIZE, clear_existing = True,
+                                       use_grayscale = False,
+                                       use_blur = False,
+                                       use_saturated = False,
+                                       use_desaturated = True)
+        x_aug, y_aug = get_augmented_training_data(rotate = True, flip = True, size = DATA_SIZE)
+
+        print((x.shape, x_aug.shape))
+        print((y.shape, y_aug.shape))
+    
+        if len(x_aug.shape) == 4:
+            x = np.concatenate((x, x_aug), axis = 0)
+            y = np.concatenate((y, y_aug), axis = 0)
