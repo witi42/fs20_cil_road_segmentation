@@ -1,6 +1,9 @@
 from PIL import Image
 import glob
 import numpy as np
+from typing import List
+import skimage.transform
+
 
 
 def np_from_files(files: list, rotate = False, flip = False, size = None) -> np.ndarray:
@@ -9,7 +12,7 @@ def np_from_files(files: list, rotate = False, flip = False, size = None) -> np.
         image = Image.open(f)
         image = np.asarray(image)
 
-        if size != None
+        if size != None:
             image = skimage.transform.resize(image, size)
 
         x.append(image)
