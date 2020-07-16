@@ -45,7 +45,7 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, class_
     index = 0
     reset_weights = model.get_weights()  # for reseting the model weights
     best_losses = []
-    for train_index, test_index in kf.split(x_norm):
+    for train_index, test_index in kf.split(x):
         x_train, x_test = x[train_index], x[test_index]
         y_train, y_test = y[train_index], y[test_index]
     
