@@ -3,6 +3,11 @@ import glob
 import numpy as np
 from typing import List
 import skimage.transform
+from skimage import filters
+from skimage.color import rgb2gray
+from skimage.color import gray2rgb
+from skimage.color import rgb2hsv
+from skimage.color import hsv2rgb
 
 
 
@@ -41,9 +46,18 @@ def get_test_data(normalize = True) -> (np.ndarray, List[str]) :
     return x, x_files
 
 
-def augment_data(x,y):
-    x_aug = flip(x)
-    y_aug = flip(y)
+def augment_data(x, y):
+    x_aug = saturate(x, 0.5)
+    y_aug = duplicate(y, 2)
+    
+    #x_aug = grayscale(x_aug)
+    #y_aug = duplicate(y, 2)
+    
+    #x_aug = blur(x_aug, 1.5)
+    #y_aug = duplicate(y, 2)
+    
+    x_aug = flip(x_aug)
+    y_aug = flip(y_aug)
     
     x_aug = rotate(x_aug)
     y_aug = rotate(y_aug)
@@ -51,6 +65,17 @@ def augment_data(x,y):
     return x_aug, y_aug
 
 
+def duplicate(x, count):
+    """
+    Duplicate images in x, such that each image is followed by <count - 1> copies.
+    Each image thus is present <count> times in a row.
+    """
+    l = []
+    for i in range(x.shape[0]):
+        for j in range(count):
+            l.append(x[i])
+
+    
 def flip(x):
     l = []
     for i in range(x.shape[0]):
@@ -67,4 +92,30 @@ def rotate(x):
         for deg in [90, 180, 270]:
             image_rot = skimage.transform.rotate(x[i], deg)
             l.append(image_rot)
+    return np.asarray(l)
+
+
+def grayscale(x):
+    l = []
+    for i in range(x.shape[0]):
+        l.append(x[i])
+        l.append(gray2rgb(rgb2gray(x[i])))
+    return np.asarray(l)
+
+
+def blur(x, sigma):
+    l = []
+    for i in range(x.shape[0]):
+        l.append(x[i])
+        l.append(filters.gaussian(x[i], sigma = sigma, multichannel = True))
+    return np.asarray(l)
+
+
+def saturate(x, factor):
+    l = []
+    for i in range(x.shape[0]):
+        l.append(x[i])
+        image_sat = rgb2hsv(x[i])
+        image_sat[:, :, 1] = (1 - (1 - img_sat[:, :, 1]) ** factor)
+        l.append(hsv2rgb(image_sat))
     return np.asarray(l)
