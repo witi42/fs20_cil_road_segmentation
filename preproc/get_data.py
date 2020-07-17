@@ -92,7 +92,7 @@ def rotate(x):
     for i in range(x.shape[0]):
         l.append(x[i])
         for deg in [90, 180, 270]:
-            image_rot = skimage.transform.rotate(x[i], deg)
+            image_rot = skimage.transform.rotate(x[i], deg, preserve_range = True)
             l.append(image_rot)
     return np.asarray(l)
 
@@ -105,8 +105,8 @@ def flip_and_rotate(x):
         l.append(x[i])
         l.append(image_flip)
         for deg in [90, 180, 270]:
-            l.append(skimage.transform.rotate(x[i], deg))
-            l.append(skimage.transform.rotate(image_flip, deg))
+            l.append(skimage.transform.rotate(x[i], deg, preserve_range = True))
+            l.append(skimage.transform.rotate(image_flip, deg, preserve_range = True))
     return np.asarray(l)
 
 def grayscale(x):
@@ -121,7 +121,7 @@ def blur(x, sigma):
     l = []
     for i in range(x.shape[0]):
         l.append(x[i])
-        l.append(filters.gaussian(x[i], sigma = sigma, multichannel = True))
+        l.append(filters.gaussian(x[i], sigma = sigma, multichannel = True, preserve_range = True))
     return np.asarray(l)
 
 
