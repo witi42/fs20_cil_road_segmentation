@@ -48,7 +48,7 @@ def get_test_data(normalize = True) -> (np.ndarray, List[str]) :
 
 def augment_data(x, y):
     x_aug = saturate(x, 0.5)
-    y_aug = duplicate(y, 2)
+    y_aug = duplicate(y, 2) # don't need to desaturate groundtruth, just copy it
     
     #x_aug = grayscale(x_aug)
     #y_aug = duplicate(y, 2)
@@ -56,11 +56,12 @@ def augment_data(x, y):
     #x_aug = blur(x_aug, 1.5)
     #y_aug = duplicate(y, 2)
     
-    x_aug = flip(x_aug)
-    y_aug = flip(y_aug)
-    
-    x_aug = rotate(x_aug)
-    y_aug = rotate(y_aug)
+    #x_aug = flip(x_aug)
+    #y_aug = flip(y_aug)
+    #x_aug = rotate(x_aug)
+    #y_aug = rotate(y_aug)
+    x_aug = flip_and_rotate(x_aug)
+    y_aug = flip_and_rotate(y_aug)
     
     return x_aug, y_aug
 
@@ -74,6 +75,7 @@ def duplicate(x, count):
     for i in range(x.shape[0]):
         for j in range(count):
             l.append(x[i])
+    return np.asarray(l)
 
     
 def flip(x):
@@ -94,6 +96,18 @@ def rotate(x):
             l.append(image_rot)
     return np.asarray(l)
 
+
+# if we flip and rotate together we only need to flip once, the other would be redundant
+def flip_and_rotate(x):
+    l = []
+    for i in range(x.shape[0]):
+        image_flip = np.flipud(x[i])
+        l.append(x[i])
+        l.append(image_flip)
+        for deg in [90, 180, 270]:
+            l.append(skimage.transform.rotate(x[i], deg))
+            l.append(skimage.transform.rotate(image_flip, deg))
+    return np.asarray(l)
 
 def grayscale(x):
     l = []
@@ -116,6 +130,6 @@ def saturate(x, factor):
     for i in range(x.shape[0]):
         l.append(x[i])
         image_sat = rgb2hsv(x[i])
-        image_sat[:, :, 1] = (1 - (1 - img_sat[:, :, 1]) ** factor)
+        image_sat[:, :, 1] = (1 - (1 - image_sat[:, :, 1]) ** factor)
         l.append(hsv2rgb(image_sat))
     return np.asarray(l)
