@@ -120,8 +120,9 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, class_
 
 def main():
     from models import cnn
+    from models import cnn2
 
-    #model = cnn.get_model_cnn(400, 400, 3, do_compile=False)
+    #model = cnn2.get_model_cnn(400, 400, 3, do_compile=False)
     model = cnn.get_model(None, None, 3, do_compile=False)
 
     #model.compile(optimizer='adam', loss='binary_crossentropy',
