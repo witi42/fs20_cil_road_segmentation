@@ -7,9 +7,31 @@ import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import os
 
+from keras import backend as K
 
 # random seed for cross-validation
 random_state = 426912378
+
+smooth = 1e-12
+
+
+def jaccard_coef(y_true, y_pred):
+    # __author__ = Vladimir Iglovikov
+    intersection = K.sum(y_true * y_pred, axis=[0, -1, -2])
+    sum_ = K.sum(y_true + y_pred, axis=[0, -1, -2])
+
+    jac = (intersection + smooth) / (sum_ - intersection + smooth)
+
+    return K.mean(jac)
+
+def jaccard_coef_int(y_true, y_pred):
+    # __author__ = Vladimir Iglovikov
+    y_pred_pos = K.round(K.clip(y_pred, 0, 1))
+
+    intersection = K.sum(y_true * y_pred_pos, axis=[0, -1, -2])
+    sum_ = K.sum(y_true + y_pred, axis=[0, -1, -2])
+    jac = (intersection + smooth) / (sum_ - intersection + smooth)
+    return K.mean(jac)
 
 
 def fit(model, X_train, Y_train, epochs=100, validation_split=0, validation_data=None, class_weight=None,
@@ -103,8 +125,9 @@ def main():
     #model = cnn.get_model_cnn(400, 400, 3, do_compile=False)
     model = cnn.get_model(None, None, 3, do_compile=False)
 
-    model.compile(optimizer='adam', loss='binary_crossentropy',
-                  metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
+    #model.compile(optimizer='adam', loss='binary_crossentropy',
+    #              metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=[jaccard_coef, jaccard_coef_int, 'accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
 
 
 

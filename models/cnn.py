@@ -319,6 +319,8 @@ def get_model_cnn(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
         model.add(Dense(nb_classes,activation='relu'))
         model.add(Dense(nb_classes,activation='softmax'))
 
+        
+
     else:
 
         inputs = (IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS)
