@@ -63,7 +63,6 @@ def get_min_index(l):
 def cross_val(model, model_name, load_training_data=True, x=None, y=None, class_weight=None, epochs=100, batch_size=8, verbose=2):
     if load_training_data:
         x, y = data.get_training_data()
-        x = x / 255.0
     
     kf = KFold(n_splits=5, shuffle=True, random_state=random_state)
     
