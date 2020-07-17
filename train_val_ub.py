@@ -23,8 +23,6 @@ def fit(model, X_train, Y_train, epochs=100, validation_split=0, validation_data
     print("Shapes-\n")
     print(X_train.shape)
     print(Y_train.shape)
-    print(X_train.shape[1:])
-    print("Hello2")
     results = model.fit(X_train, Y_train, validation_split=validation_split, validation_data=validation_data,
                         batch_size=batch_size, epochs=epochs,
                         callbacks=[earlystopper, checkpointer], class_weight=class_weight,
