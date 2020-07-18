@@ -9,16 +9,6 @@ from tensorflow.keras.layers import concatenate
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import datetime
 
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Convolution2D, MaxPooling2D
-from keras.optimizers import Adam
-from keras.utils import np_utils
-from keras import backend as K
-from keras.regularizers import l2
-from keras.layers import LeakyReLU
-from keras.callbacks import ReduceLROnPlateau, EarlyStopping
-
 
 def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
     """
@@ -103,7 +93,7 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
     model = Model(inputs=[inputs], outputs=[outputs])
     if do_compile:
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-    model.summary()
+    #model.summary()
 
     return model
 
