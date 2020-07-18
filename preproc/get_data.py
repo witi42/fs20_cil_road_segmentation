@@ -47,19 +47,25 @@ def get_test_data(normalize = True) -> (np.ndarray, List[str]) :
 
 
 def augment_data(x, y):
-    x_aug = saturate(x, 0.5)
-    y_aug = duplicate(y, 2) # don't need to desaturate groundtruth, just copy it
+    x_aug = flip_and_rotate(x)
+    y_aug = flip_and_rotate(y)
     
-    #x_aug = grayscale(x_aug)
-    #y_aug = duplicate(y, 2)
+    return x_aug, y_aug
+
+
+def augment_data_extended(x, y, saturation = None, grayscale = False, blur = None):
+    if (saturation != None):
+        x_aug = saturate(x, saturation)
+        y_aug = duplicate(y, 2) # don't need to desaturate groundtruth, just copy it
     
-    #x_aug = blur(x_aug, 1.5)
-    #y_aug = duplicate(y, 2)
+    if grayscale:
+        x_aug = grayscale(x_aug)
+        y_aug = duplicate(y, 2)
     
-    #x_aug = flip(x_aug)
-    #y_aug = flip(y_aug)
-    #x_aug = rotate(x_aug)
-    #y_aug = rotate(y_aug)
+    if blur != None
+        x_aug = blur(x_aug, blur)
+        y_aug = duplicate(y, 2)
+    
     x_aug = flip_and_rotate(x_aug)
     y_aug = flip_and_rotate(y_aug)
     
