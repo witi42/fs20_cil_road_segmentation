@@ -16,23 +16,23 @@ def np_from_files(files: list) -> np.ndarray:
     for f in files:
         image = Image.open(f)
         image = np.asarray(image)
-
+    
         x.append(image)
-
+    
     return np.asarray(x)
 
 
 def get_training_data(normalize = True) -> (np.ndarray, np.ndarray):
     x_files = sorted(glob.glob('input/training/images/*.png'))
     y_files = sorted(glob.glob('input/training/groundtruth/*.png'))
-
+    
     x = np_from_files(x_files)
     if normalize:
         x = x.astype(np.float32) / 255.
     
     y = np_from_files(y_files)
     y = (y > 0.5).astype(np.uint8)
-
+    
     return x, y
 
 
@@ -42,7 +42,7 @@ def get_test_data(normalize = True) -> (np.ndarray, List[str]) :
     x = np_from_files(x_files)
     if normalize:
         x = x.astype(np.float) / 255.
-
+    
     return x, x_files
 
 
@@ -62,7 +62,7 @@ def augment_data_extended(x, y, saturation = None, grayscale = False, blur = Non
         x_aug = grayscale(x_aug)
         y_aug = duplicate(y, 2)
     
-    if blur != None
+    if blur != None:
         x_aug = blur(x_aug, blur)
         y_aug = duplicate(y, 2)
     
