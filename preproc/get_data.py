@@ -27,10 +27,11 @@ def get_training_data(normalize = True) -> (np.ndarray, np.ndarray):
     y_files = sorted(glob.glob('input/training/groundtruth/*.png'))
     
     x = np_from_files(x_files)
+    y = np_from_files(y_files)
     if normalize:
         x = x.astype(np.float32) / 255.
+        y = y.astype(np.float32) / 255.
     
-    y = np_from_files(y_files)
     y = (y > 0.5).astype(np.uint8)
     
     return x, y
