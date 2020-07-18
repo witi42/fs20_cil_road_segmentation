@@ -27,7 +27,7 @@ def train_sub(model, model_name, x, y, epochs=100, batch_size=8, verbose=2):
     create_sub(model, model_name)
 
 
-def create_sub(model, name):
+def create_sub(model, sub_name):
     x, x_names = data.get_test_data()
 
     if not os.path.exists('output'):
@@ -45,17 +45,15 @@ def create_sub(model, name):
 
     if not os.path.exists('submission_csv'):
         os.makedirs('submission_csv')
-    submission_filename = 'submission_csv/' + name + '.csv'
+    submission_filename = 'submission_csv/' + sub_name + '.csv'
     image_filenames = glob.glob('output/*.png')
 
-    mask_to_submission.masks_to_submission(submission_filename, *image_filenames)
+    mask_to_submission.masks_to_submission(submission_filename, image_filenames)
 
 
 def main():
     x, y = data.get_training_data()
     x, y = data.augment_data(x,y)
-    x = x[0:2]
-    y = y[0:2]
 
 
     # crossentropy
@@ -94,7 +92,7 @@ def main():
     model = unet.get_model(None, None, 3, do_compile=False)
     model.compile(optimizer='adam', loss=loss,
                   metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
-    train_sub(model, model_name, x, y, epochs=1)
+    train_sub(model, model_name, x, y, epochs=100)
 
 
 if __name__ == "__main__":
