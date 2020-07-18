@@ -8,6 +8,8 @@ from skimage.color import rgb2gray
 from skimage.color import gray2rgb
 from skimage.color import rgb2hsv
 from skimage.color import hsv2rgb
+import math
+import random
 
 
 
@@ -20,6 +22,17 @@ def np_from_files(files: list) -> np.ndarray:
         x.append(image)
     
     return np.asarray(x)
+
+
+def make_groundtruth_binary(y, threshold = 0.5):
+    """
+    Ensures that the groundtruth data is stored as {0, 1} np.uint8
+    """
+    if y.max() > 1:         # normalize it first
+        if y.max() > 255:   # should never be the case, but still...
+            print("get_data.make_groundtruth_binary() encountered weird data range!")
+        y = y / 255.
+    return (y > threshold).astype(np.uint8)
 
 
 def get_training_data(normalize = True) -> (np.ndarray, np.ndarray):
@@ -54,23 +67,27 @@ def augment_data(x, y):
     return x_aug, y_aug
 
 
-def augment_data_extended(x, y, saturation = None, grayscale = False, blur = None):
+def augment_data_extended(x, y, saturation = None, grayscale = False, blur = None, num_random_rotations = 3):
+    x = random_rotate(x, num_rotations = num_random_rotations)
+    y = random_rotate(y, num_rotations = num_random_rotations)
+    
     if (saturation != None):
-        x_aug = saturate(x, saturation)
-        y_aug = duplicate(y, 2) # don't need to desaturate groundtruth, just copy it
+        x = saturate(x, saturation)
+        y = duplicate(y, 2) # don't need to desaturate groundtruth, just copy it
     
     if grayscale:
-        x_aug = grayscale(x_aug)
-        y_aug = duplicate(y, 2)
+        x = grayscale(x)
+        y = duplicate(y, 2)
     
     if blur != None:
-        x_aug = blur(x_aug, blur)
-        y_aug = duplicate(y, 2)
+        x = blur(x, blur)
+        y = duplicate(y, 2)
     
-    x_aug = flip_and_rotate(x_aug)
-    y_aug = flip_and_rotate(y_aug)
+    x = flip_and_rotate(x)
+    y = flip_and_rotate(y)
     
-    return x_aug, y_aug
+    y = make_groundtruth_binary(y)
+    return x, y
 
 
 def duplicate(x, count):
@@ -115,6 +132,28 @@ def flip_and_rotate(x):
             l.append(skimage.transform.rotate(x[i], deg, preserve_range = True))
             l.append(skimage.transform.rotate(image_flip, deg, preserve_range = True))
     return np.asarray(l)
+
+
+def random_rotate(x, num_rotations = 3, seed = '4815162342', min_deg = 20, max_deg = 70):
+    """
+    When specifying a seed, make sure the same seed is used for the groundtruth as well!
+    """
+    random.seed(seed)
+    l = []
+    original_size = (x.shape[1], x.shape[2])
+    w = original_size[0]
+    c_1 = int(w / 2 - w / math.sqrt(8))
+    c_2 = int(w - c_1)
+    for i in range(x.shape[0]):
+        l.append(x[i])
+        for j in range(num_rotations):
+            deg = random.randrange(min_deg, max_deg)
+            img_rot = skimage.transform.rotate(x[i], deg, preserve_range = True)                # rotate
+            img_rot = img_rot[c_1:c_2, c_1:c_2]                                                 # crop black area away
+            img_rot = skimage.transform.resize(img_rot, original_size, preserve_range = True)   # resize to original size
+            l.append(img_rot)
+    return np.asarray(l)
+
 
 def grayscale(x):
     l = []
