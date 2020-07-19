@@ -41,31 +41,32 @@ def get_min_index(l):
             min_index = index
     return min_index
 
-def cross_val(model, model_name, load_training_data=True, x=None, y=None, class_weight=None, epochs=100, batch_size=8, verbose=2):
-    if load_training_data:
-        x, y = data.get_training_data()
+def cross_val(model, model_name, epochs=100, batch_size=8, verbose=2):
+
+    x, y = data.get_training_data()
     
     kf = KFold(n_splits=5, shuffle=True, random_state=random_state)
     
     histories = []
     index = 0
-    reset_weights = model.get_weights()  # for reseting the model weights
     best_losses = []
-    name = ''
+    current_name = ''
     for train_index, test_index in kf.split(x):
         x_train, x_test = x[train_index], x[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
-        x_train, y_train = data.augment_data_extended(x_train, y_train, num_random_rotations = 5)
+        print('augment data')
+        x_train, y_train = data.augment_data_extended(x_train, y_train, num_random_rotations = 3)
     
-        name = model_name + '_crossval-k' + str(index)
-        crt_history = fit(model, x_train, y_train, epochs=epochs, validation_data=(x_test, y_test), checkpoint_suffix=name, batch_size=batch_size, verbose=verbose,
-                        class_weight=class_weight)
+        current_name = model_name + '_crossval-k' + str(index)
+        crt_history = fit(model, x_train, y_train, epochs=epochs, validation_data=(x_test, y_test), checkpoint_suffix=current_name, batch_size=batch_size, verbose=verbose)
         histories.append(crt_history)
         
         best_epoch = get_min_index(crt_history.history['loss'])
         best_loss = crt_history.history['loss'][best_epoch]
         best_losses.append(best_loss)
+
+        model.load_weights(current_name+ '.h5')
     
         index += 1
 
@@ -98,7 +99,6 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, class_
     #model.load_weights("cps/ckp_" + model_name + '_crossval-k' + str(best_model_index) + ".h5")
     #print("best model: cps/ckp_" + model_name + '_crossval-k' + str(best_model_index) + ".h5")
 
-    model.load_weights(name + ".h5")
     create_sub(model, model_name)
 
 def create_sub(model, sub_name):
