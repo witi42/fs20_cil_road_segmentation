@@ -126,53 +126,52 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
 def main():
     from models import unet
 
-    # u_net_cross_entropy
+    # u_net_cross_entropy_augmented
     model = unet.get_model(None, None, 3, do_compile=False)
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_cross_entropy'
+    model_name = 'u_net_cross_entropy_augmented'
     
-    cross_val(model, model_name)
+    cross_val(model, model_name, augment_data_func=data.augment_data)
 
 
-    # u_net_balanced_cross_entropy_class_weight
+    # u_net_balanced_cross_entropy_class_weight_augmented
     model = unet.get_model(None, None, 3, do_compile=False)
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_balanced_cross_entropy_class_weight'
+    model_name = 'u_net_balanced_cross_entropy_class_weight_augmented'
     
-    cross_val(model, model_name, use_class_weight=True)
+    cross_val(model, model_name, augment_data_func=data.augment_data)
 
 
 
-    # dice
+    # u_net_dice_augmented
     from losses import dice
     loss = dice.dice_loss
 
-    model_name = 'u_net_dice'
     model = unet.get_model(None, None, 3, do_compile=False)
     model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_dice'
+    model_name = 'u_net_dice_augmented'
 
-    cross_val(model, model_name) 
+    cross_val(model, model_name, augment_data_func=data.augment_data)
 
 
-    # u_net_focal
+    # u_net_focal_augmented
     from losses import focal
     loss = focal.focal_loss
     model = unet.get_model(None, None, 3, do_compile=False)
     model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_focal'
+    model_name = 'u_net_focal_augmented'
 
-    cross_val(model, model_name) 
+    cross_val(model, model_name, augment_data_func=data.augment_data)
 
 
-    # u_net_lovasz
+    # u_net_lovasz_augmented
     from losses import lovasz
     loss = lovasz.lovasz_loss
     model = unet.get_model(None, None, 3, do_compile=False)
     model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_lovasz'
+    model_name = 'u_net_lovasz_augmented'
     
-    cross_val(model, model_name)                                                        
+    cross_val(model, model_name, augment_data_func=data.augment_data)
 
 
 
