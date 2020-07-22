@@ -53,35 +53,35 @@ def create_sub(model, sub_name):
 
 def main():
     x, y = data.get_training_data()
-    x, y = data.augment_data(x,y)
+    # x, y = data.augment_data(x,y)
 
 
-    # crossentropy
-    model = unet.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss='binary_crossentropy',
-                  metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
-    model_name = 'u_net_cross_entropy_test'
-    train_sub(model, model_name, x, y, epochs=1)
+    # # crossentropy
+    # model = unet.get_model(None, None, 3, do_compile=False)
+    # model.compile(optimizer='adam', loss='binary_crossentropy',
+    #               metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
+    # model_name = 'u_net_cross_entropy_test'
+    # train_sub(model, model_name, x, y, epochs=1)
 
 
-    # focal
-    from losses import focal
-    loss = focal.focal_loss
-    model_name = 'u_net_focal_loss'
-    model = unet.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss,
-                  metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
-    train_sub(model, model_name, x, y, epochs=1)
+    # # focal
+    # from losses import focal
+    # loss = focal.focal_loss
+    # model_name = 'u_net_focal_loss'
+    # model = unet.get_model(None, None, 3, do_compile=False)
+    # model.compile(optimizer='adam', loss=loss,
+    #               metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
+    # train_sub(model, model_name, x, y, epochs=1)
 
 
-    # dice
-    from losses import dice
-    loss = dice.dice_loss
-    model_name = 'u_net_dice'
-    model = unet.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss,
-                  metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
-    train_sub(model, model_name, x, y, epochs=1)
+    # # dice
+    # from losses import dice
+    # loss = dice.dice_loss
+    # model_name = 'u_net_dice'
+    # model = unet.get_model(None, None, 3, do_compile=False)
+    # model.compile(optimizer='adam', loss=loss,
+    #               metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
+    # train_sub(model, model_name, x, y, epochs=1)
 
 
 

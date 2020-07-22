@@ -1,5 +1,5 @@
 #https://www.kaggle.com/advaitsave/tensorflow-2-nuclei-segmentation-unet
-
+import tensorflow as tf
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Dropout, Lambda
@@ -11,6 +11,9 @@ import datetime
 
 
 def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
+    random_state = 426912378
+    tf.random.set_seed(random_state)
+    tf.compat.v1.set_random_seed(random_state)
     """
 
     :param IMG_HEIGHT:

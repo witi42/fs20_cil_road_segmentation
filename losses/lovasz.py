@@ -25,6 +25,9 @@ def lovasz_grad(gt_sorted):
 
 
 # --------------------------- BINARY LOSSES ---------------------------
+#added
+def lovasz_loss(y_true, y_pred):
+    return lovasz_hinge(labels=y_true, logits=y_pred)
 
 
 def lovasz_hinge(logits, labels, per_image=True, ignore=None):
