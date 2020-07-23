@@ -1,5 +1,7 @@
 # Project specific
 
+# Mac
+.DS_Store
 
 # Pycharm
 .idea
