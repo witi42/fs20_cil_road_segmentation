@@ -139,13 +139,17 @@ def main():
                        #(None, False, None, 0),  #      -            -          -            0
                                                 #
                        (0.5, False, None, 0),   #      X            -          -            0
+                       (None, False, None, 3),  #      -            -          -            3
+                       (0.5, False, None, 3),   #      X            -          -            3
+                                                #
+                       #(0.5, False, None, 0),   #      X            -          -            0
                        (None, True, None, 0),   #      -            X          -            0
                        (None, False, 1.5, 0),   #      -            -          X            0
-                       (None, False, None, 3),  #      -            -          -            3
+                       #(None, False, None, 3),  #      -            -          -            3
                                                 #
                        (0.5, True, None, 0),    #      X            X          -            0
                        (0.5, False, 1.5, 0),    #      X            -          X            0
-                       (0.5, False, None, 3),   #      X            -          -            3
+                       #(0.5, False, None, 3),   #      X            -          -            3
                        (None, True, 1.5, 0),    #      -            X          X            0
                        (None, True, None, 3),   #      -            X          -            3
                        (None, False, 1.5, 3),   #      -            -          X            3
