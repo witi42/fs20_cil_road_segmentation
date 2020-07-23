@@ -67,7 +67,7 @@ def augment_data(x, y):
     return x_aug, y_aug
 
 
-def augment_data_extended(x, y, saturation = None, grayscale = False, blur = None, num_random_rotations = 3):
+def augment_data_extended(x, y, saturation = None, use_grayscale = False, blur_amount = None, num_random_rotations = 3):
     x = random_rotate(x, num_rotations = num_random_rotations)
     y = random_rotate(y, num_rotations = num_random_rotations)
     
@@ -75,12 +75,12 @@ def augment_data_extended(x, y, saturation = None, grayscale = False, blur = Non
         x = saturate(x, saturation)
         y = duplicate(y, 2) # don't need to desaturate groundtruth, just copy it
     
-    if grayscale:
+    if use_grayscale:
         x = grayscale(x)
         y = duplicate(y, 2)
     
-    if blur != None:
-        x = blur(x, blur)
+    if blur_amount != None:
+        x = blur(x, blur_amount)
         y = duplicate(y, 2)
     
     x = flip_and_rotate(x)

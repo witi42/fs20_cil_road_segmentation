@@ -166,13 +166,13 @@ def main():
 
 def single_run(aug_sat, aug_gs, aug_blur, aug_rr, TEST_RUM_ONLY = False):
     def augment_data_ext(x, y):
-        return data.augment_data_extended(x, y, saturation = aug_sat, grayscale = aug_gs, blur = aug_blur, num_random_rotations = aug_rr)
+        return data.augment_data_extended(x, y, saturation = aug_sat, use_grayscale = aug_gs, blur_amount = aug_blur, num_random_rotations = aug_rr)
     
     epochs = 150
     if TEST_RUM_ONLY:
         epochs = 1
         
-    crt_config_name = "_" + str(aug_sat) + "_" + str(aug_blur) + "_" + str(aug_rr)
+    crt_config_name = "_" + str(aug_sat) + "_" + str(aug_gs) + "_" + str(aug_blur) + "_" + str(aug_rr)
     
     # u_net_cross_entropy_augmented
     model = unet.get_model(None, None, 3, do_compile=False)
