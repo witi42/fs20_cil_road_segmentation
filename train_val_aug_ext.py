@@ -5,6 +5,8 @@ from sklearn.model_selection import KFold
 import preproc.get_data as data
 from  metrics.f1 import f1
 from metrics.f1 import f1_binary
+from submission import model_to_submission as submission
+from models import unet
 
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -76,6 +78,11 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
         best_losses.append(best_loss)
     
         index += 1
+
+        # create submission for first fold
+        if index == 0:
+            submission.create(model, name)
+
         model.set_weights(reset_weights)  # reset the model weights
 
 
@@ -153,13 +160,11 @@ def main():
     
     for crt_cfg in ext_aug_configs:
         print("Running with extended data augmentation: " + str(crt_cfg))
-        single_run(crt_cfg[0], crt_cfg[1], crt_cfg[2], crt_cfg[3], True)    # set to false for proper execution
+        single_run(crt_cfg[0], crt_cfg[1], crt_cfg[2], crt_cfg[3], False)    # set to false for proper execution
 
 
 
 def single_run(aug_sat, aug_gs, aug_blur, aug_rr, TEST_RUM_ONLY = False):
-    from models import unet
-    
     def augment_data_ext(x, y):
         return data.augment_data_extended(x, y, saturation = aug_sat, grayscale = aug_gs, blur = aug_blur, num_random_rotations = aug_rr)
     
@@ -177,44 +182,45 @@ def single_run(aug_sat, aug_gs, aug_blur, aug_rr, TEST_RUM_ONLY = False):
     cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = epochs)
 
 
-    # u_net_balanced_cross_entropy_class_weight_augmented
-    model = unet.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_balanced_cross_entropy_class_weight_augmented_extended' + crt_config_name
-    
-    cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = 1)
 
-
-
-    # u_net_dice_augmented
-    from losses import dice
-    loss = dice.dice_loss
-
-    model = unet.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_dice_augmented_extended' + crt_config_name
-
-    cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = 1)
-
-
-    # u_net_focal_augmented
-    from losses import focal
-    loss = focal.focal_loss
-    model = unet.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_focal_augmented_extended' + crt_config_name
-
-    cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = 1)
-
-
-    # u_net_lovasz_augmented
-    from losses import lovasz
-    loss = lovasz.lovasz_loss
-    model = unet.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'u_net_lovasz_augmented_extended' + crt_config_name
-    
-    cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = 1)
+    # # u_net_balanced_cross_entropy_class_weight_augmented
+    # model = unet.get_model(None, None, 3, do_compile=False)
+    # model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    # model_name = 'u_net_balanced_cross_entropy_class_weight_augmented_extended' + crt_config_name
+    #
+    # cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = 1)
+    #
+    #
+    #
+    # # u_net_dice_augmented
+    # from losses import dice
+    # loss = dice.dice_loss
+    #
+    # model = unet.get_model(None, None, 3, do_compile=False)
+    # model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    # model_name = 'u_net_dice_augmented_extended' + crt_config_name
+    #
+    # cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = 1)
+    #
+    #
+    # # u_net_focal_augmented
+    # from losses import focal
+    # loss = focal.focal_loss
+    # model = unet.get_model(None, None, 3, do_compile=False)
+    # model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    # model_name = 'u_net_focal_augmented_extended' + crt_config_name
+    #
+    # cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = 1)
+    #
+    #
+    # # u_net_lovasz_augmented
+    # from losses import lovasz
+    # loss = lovasz.lovasz_loss
+    # model = unet.get_model(None, None, 3, do_compile=False)
+    # model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    # model_name = 'u_net_lovasz_augmented_extended' + crt_config_name
+    #
+    # cross_val(model, model_name, augment_data_func=augment_data_ext, epochs = 1)
 
 
 
