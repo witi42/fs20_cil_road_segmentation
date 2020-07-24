@@ -35,18 +35,31 @@ def make_groundtruth_binary(y, threshold = 0.5):
     return (y > threshold).astype(np.uint8)
 
 
+# get training data as ndarrays from original dataset
 def get_training_data(normalize = True) -> (np.ndarray, np.ndarray):
     x_files = sorted(glob.glob('input/training/images/*.png'))
     y_files = sorted(glob.glob('input/training/groundtruth/*.png'))
-    
+
+    return get_training_data_path(x_files, y_files, normalize)
+
+
+# get training data as ndarrays from additional dataset
+def get_training_data2(normalize=True) -> (np.ndarray, np.ndarray):
+    x_files = sorted(glob.glob('input/training/images_aug/*.png'))
+    y_files = sorted(glob.glob('input/training/groundtruth_aug/*.png'))
+
+    return get_training_data_path(x_files, y_files, normalize)
+
+
+def get_training_data_path(x_files, y_files, normalize=True) -> (np.ndarray, np.ndarray):
     x = np_from_files(x_files)
     y = np_from_files(y_files)
     if normalize:
         x = x.astype(np.float32) / 255.
         y = y.astype(np.float32) / 255.
-    
+
     y = (y > 0.5).astype(np.uint8)
-    
+
     return x, y
 
 
@@ -88,6 +101,18 @@ def augment_data_extended(x, y, saturation = None, use_grayscale = False, blur_a
     
     y = make_groundtruth_binary(y)
     return x, y
+
+
+def resize_images(x, size):
+    x_shape = list(x.shape)
+    x_shape[1:3] = list(size)
+
+    x_out = np.ndarray(shape=x_shape, dtype=x.dtype)
+
+    for i, image in enumerate(x):
+        out_image = skimage.transform.resize(image, size, anti_aliasing=True)
+        x_out[i] = out_image
+    return x_out
 
 
 def duplicate(x, count):
