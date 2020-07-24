@@ -130,7 +130,7 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
 def main():
     from models import simple_patch_conv
     from submission.mask_to_submission import patch_to_label
-    num_filters = 1024  # this is chosen somewhat arbitrarly, maybe try some different numbers
+    num_filters = 1024  # this is chosen somewhat arbitrarily, maybe try some different numbers
     batch_size = 8
     epochs = 200
     def transform_y(y):
@@ -147,99 +147,135 @@ def main():
     
     
     
+#################
+### Testing Area
+###
+    
+    from visualize.show_img import show_image_single, show_image, show_image_pred, blend_image
+    
+    x, y = data.get_training_data()
+    x, y = data.augment_data(x, y)
+    y = transform_y(y)
+    x_test, x_test_names = data.get_test_data()
+    
+    from losses import dice, lovasz
+    loss_test = 'binary_crossentropy'
+    #loss_test = dice.dice_loss
+    #loss_test = lovasz.lovasz_loss
+    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    model.compile(optimizer='adam', loss=loss_test, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    model_name = 'spc_test'
+    fit(model, x, y, epochs=epochs, validation_split=0.1, validation_data=None, checkpoint_suffix=model_name, batch_size=batch_size, verbose=2)
+    
+    x_pred = np.squeeze(model.predict(x))
+    x_pred_image = (x_pred > 0.5).astype(np.uint8)
+    #for i in range(x_pred.shape[0]):
+    for i in range(10):
+        show_image_pred(x_pred[i], x_pred_image[i], y[i])
+    
+    x_test_pred = np.squeeze(model.predict(x_test))
+    x_test_pred_image = (x_test_pred > 0.5).astype(np.uint8)
+    #for i in range(x_test_pred.shape[0]):
+    for i in range(10):
+        show_image_pred(x_test_pred[i], x_test_pred_image[i], blend_image(x_test[i], np.kron(x_test_pred_image[i], np.ones((16, 16), dtype=int))))
+    
+###
+### Testing Area
+#################
+    
     
     # spc_cross_entropy
-    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'spc_cross_entropy'
-    
-    cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
-    
-    
-    # spc_balanced_cross_entropy_class_weight
     #model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
     #model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    #model_name = 'spc_balanced_cross_entropy_class_weight'
+    #model_name = 'spc_cross_entropy'
+    #
+    #cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
+    #
+    #
+    ## spc_balanced_cross_entropy_class_weight
+    ##model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    ##model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    ##model_name = 'spc_balanced_cross_entropy_class_weight'
+    ##
+    ##cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
+    #
+    #
+    ## spc_dice
+    #from losses import dice
+    #loss = dice.dice_loss
+    #model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    #model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    #model_name = 'spc_dice'
+    #
+    #cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
+    #
+    #
+    ## spc_focal
+    #from losses import focal
+    #loss = focal.focal_loss
+    #model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    #model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    #model_name = 'spc_focal'
     #
     #cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
     
     
-    # spc_dice
-    from losses import dice
-    loss = dice.dice_loss
-    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'spc_dice'
-    
-    cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
-    
-    
-    # spc_focal
-    from losses import focal
-    loss = focal.focal_loss
-    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'spc_focal'
-    
-    cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
-    
-    
-    # spc_lovasz
-    from losses import lovasz
-    loss = lovasz.lovasz_loss
-    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'spc_lovasz'
-    
-    cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
+    ### spc_lovasz
+    ##from losses import lovasz
+    ##loss = lovasz.lovasz_loss
+    ##model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    ##model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    ##model_name = 'spc_lovasz'
+    ##
+    ##cross_val(model, model_name, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
     
     
     
     
-    # spc_cross_entropy_augmented
-    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'spc_cross_entropy_augmented'
-    
-    cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
-    
-    
-    # spc_balanced_cross_entropy_class_weight_augmented
+    ## spc_cross_entropy_augmented
     #model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
     #model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    #model_name = 'spc_balanced_cross_entropy_class_weight_augmented'
+    #model_name = 'spc_cross_entropy_augmented'
     #
     #cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
-    
-    
-    # spc_dice_augmented
-    from losses import dice
-    loss = dice.dice_loss
-    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'spc_dice_augmented'
-    
-    cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
-    
-    
-    # spc_focal_augmented
-    from losses import focal
-    loss = focal.focal_loss
-    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'spc_focal_augmented'
-    
-    cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
-    
-    
-    # spc_lovasz_augmented
-    from losses import lovasz
-    loss = lovasz.lovasz_loss
-    model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'spc_lovasz_augmented'
-    
-    cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
+    #
+    #
+    ## spc_balanced_cross_entropy_class_weight_augmented
+    ##model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    ##model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    ##model_name = 'spc_balanced_cross_entropy_class_weight_augmented'
+    ##
+    ##cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
+    #
+    #
+    ## spc_dice_augmented
+    #from losses import dice
+    #loss = dice.dice_loss
+    #model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    #model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    #model_name = 'spc_dice_augmented'
+    #
+    #cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
+    #
+    #
+    ## spc_focal_augmented
+    #from losses import focal
+    #loss = focal.focal_loss
+    #model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    #model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    #model_name = 'spc_focal_augmented'
+    #
+    #cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
+    #
+    #
+    ## spc_lovasz_augmented
+    #from losses import lovasz
+    #loss = lovasz.lovasz_loss
+    #model = simple_patch_conv.get_model(None, None, 3, num_filters=num_filters, do_compile=False, do_upsampling=False)
+    #model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    #model_name = 'spc_lovasz_augmented'
+    #
+    #cross_val(model, model_name, augment_data_func=data.augment_data, transform_y=transform_y, batch_size=batch_size, epochs=epochs)
 
 
 
