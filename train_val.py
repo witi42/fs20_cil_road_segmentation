@@ -5,6 +5,8 @@ from sklearn.model_selection import KFold
 import preproc.get_data as data
 from  metrics.f1 import f1
 from metrics.f1 import f1_binary
+from submission import model_to_submission as submission
+
 
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint

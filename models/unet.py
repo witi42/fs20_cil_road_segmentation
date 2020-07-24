@@ -11,9 +11,9 @@ import datetime
 
 
 def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
-    random_state = 426912378
-    tf.random.set_seed(random_state)
-    tf.compat.v1.set_random_seed(random_state)
+    tf.compat.v1.reset_default_graph()
+    tf.random.set_seed(42424242)
+    tf.compat.v1.set_random_seed(42424242)
     """
 
     :param IMG_HEIGHT:
