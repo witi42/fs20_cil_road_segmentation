@@ -19,7 +19,7 @@ def np_from_files(files: list) -> np.ndarray:
         image = Image.open(f)
         image = np.asarray(image)
 
-        print(f, image.shape)
+        #print(f, image.shape)
     
         x.append(image)
     
@@ -34,7 +34,7 @@ def np_from_files_grid_cut(files: list) -> np.ndarray:
         image = Image.open(f)
         image = np.asarray(image)
 
-        print(f, image.shape)
+        #print(f, image.shape)
 
         for x_start in range(0, image.shape[0]-400+1, size[0]):
             for y_start in range(0, image.shape[1]-400+1, size[1]):

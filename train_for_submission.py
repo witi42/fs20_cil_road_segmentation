@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
 import glob
+import datetime
 
 from sklearn.model_selection import train_test_split
 
@@ -25,9 +26,13 @@ def train_sub(model, model_name, x, y, validation_data, epochs=100, batch_size=8
     model_path_name = 'checkpoints/ckp_{}.h5'.format(model_name)
     checkpointer = ModelCheckpoint(model_path_name, verbose=1, save_best_only=True)
 
+    os.makedirs("tf_logs", exist_ok = True)
+    log_dir = "tf_logs/" + model_name + "_" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
     history = model.fit(x, y, validation_data=validation_data,
                         batch_size=batch_size, epochs=epochs,
-                        callbacks=[earlystopper, checkpointer],
+                        callbacks=[earlystopper, checkpointer, tensorboard_callback],
                         verbose=verbose)
 
     model.load_weights(model_path_name)
@@ -40,7 +45,7 @@ def main():
     x2, y2 = data.get_training_data2()
 
     print('x1, y1',x1.shape, y1.shape)
-    x1_train, x_test, y1_train, y_test = train_test_split(x1, y1, test_size=0.4, random_state=42424242)
+    x1_train, x_test, y1_train, y_test = train_test_split(x1, y1, test_size=0.3, random_state=42424242)
 
 
     print('x1_train, x2', x1_train.shape, x2.shape, x1_train.dtype, x2.dtype)
@@ -53,12 +58,12 @@ def main():
     # x, y = data.augment_data(x,y)
 
 
-    # # crossentropy
-    # model = unet.get_model(None, None, 3, do_compile=False)
-    # model.compile(optimizer='adam', loss='binary_crossentropy',
-    #               metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
-    # model_name = 'u_net_cross_entropy_test'
-    # train_sub(model, model_name, x, y, epochs=1)
+    # crossentropy
+    model = unet.get_model(None, None, 3, do_compile=False)
+    model.compile(optimizer='adam', loss='binary_crossentropy',
+                  metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
+    model_name = 'u_net_cross_entropy_test'
+    train_sub(model, model_name, x, y, (x_test, y_test), epochs=100)
 
 
     # # focal
@@ -82,14 +87,14 @@ def main():
 
 
 
-    # lovasz
-    from losses import lovasz
-    loss = lovasz.lovasz_loss
-    model_name = 'u_net_lovasz_EXT_DATA'
-    model = unet.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss,
-                  metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
-    train_sub(model, model_name, x, y, (x_test, y_test), epochs=100)
+    # # lovasz
+    # from losses import lovasz
+    # loss = lovasz.lovasz_loss
+    # model_name = 'u_net_lovasz_EXT_DATA'
+    # model = unet.get_model(None, None, 3, do_compile=False)
+    # model.compile(optimizer='adam', loss=loss,
+    #               metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2)])
+    # train_sub(model, model_name, x, y, (x_test, y_test), epochs=100)
 
 
 if __name__ == "__main__":
