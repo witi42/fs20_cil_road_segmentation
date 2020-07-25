@@ -18,9 +18,33 @@ def np_from_files(files: list) -> np.ndarray:
     for f in files:
         image = Image.open(f)
         image = np.asarray(image)
+
+        print(f, image.shape)
     
         x.append(image)
     
+    return np.asarray(x)
+
+
+def np_from_files_grid_cut(files: list) -> np.ndarray:
+    size = (400,400)
+
+    x = []
+    for f in files:
+        image = Image.open(f)
+        image = np.asarray(image)
+
+        print(f, image.shape)
+
+        for x_start in range(0, image.shape[0]-400+1, size[0]):
+            for y_start in range(0, image.shape[1]-400+1, size[1]):
+                cutout = image[x_start:x_start+400, y_start:y_start+400]
+
+                if (cutout.shape[0:2] != size):
+                    print("ERROR: cutout has shape ", cutout.shape)
+                else:
+                    x.append(cutout)
+
     return np.asarray(x)
 
 
@@ -51,9 +75,9 @@ def get_training_data2(normalize=True) -> (np.ndarray, np.ndarray):
     return get_training_data_path(x_files, y_files, normalize)
 
 
-def get_training_data_path(x_files, y_files, normalize=True) -> (np.ndarray, np.ndarray):
-    x = np_from_files(x_files)
-    y = np_from_files(y_files)
+def get_training_data_path(x_files, y_files, normalize=True, image_to_np=np_from_files) -> (np.ndarray, np.ndarray):
+    x = image_to_np(x_files)
+    y = image_to_np(y_files)
     if normalize:
         x = x.astype(np.float32) / 255.
         y = y.astype(np.float32) / 255.
