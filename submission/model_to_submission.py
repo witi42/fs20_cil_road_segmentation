@@ -39,13 +39,12 @@ def create_with_split(model, sub_name):
     if not os.path.exists('output'):
         os.makedirs('output')
 
+    print("Predicting Test Images")
     for i in range(len(x_names)):
-        print("Predicting Test Images")
-
         name = x_names[i][18:]
+        print(name)
 
         image = x[i:i + 1][0]
-        print(image.shape)
         aa = image[0:small_s, 0:small_s]
         ab = image [0:small_s, large_s-small_s: large_s]
         ba = image [large_s-small_s: large_s, 0:small_s]
