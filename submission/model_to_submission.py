@@ -40,8 +40,9 @@ def create_with_split(model, sub_name):
         os.makedirs('output')
 
     for i in range(len(x_names)):
+        print("Predicting Test Images")
+
         name = x_names[i][18:]
-        print(name)
 
         image = x[i:i + 1][0]
         print(image.shape)
