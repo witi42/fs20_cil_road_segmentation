@@ -1,0 +1,472 @@
+Sender: LSF System <lsfadmin@lo-g2-019>
+Subject: Job 7238163: <python train_val_aug_ext_2.py> in cluster <leonhard> Done
+
+Job <python train_val_aug_ext_2.py> was submitted from host <lo-login-01> by user <robinw> in cluster <leonhard> at Mon Jul 27 19:23:51 2020
+Job was executed on host(s) <4*lo-g2-019>, in queue <gpu.24h>, as user <robinw> in cluster <leonhard> at Mon Jul 27 20:42:03 2020
+</cluster/home/robinw> was used as the home directory.
+</cluster/home/robinw/fs20_cil_road_segmentation> was used as the working directory.
+Started at Mon Jul 27 20:42:03 2020
+Terminated at Tue Jul 28 01:13:46 2020
+Results reported at Tue Jul 28 01:13:46 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python train_val_aug_ext_2.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   6217.74 sec.
+    Max Memory :                                 64294 MB
+    Average Memory :                             43461.15 MB
+    Total Requested Memory :                     256000.00 MB
+    Delta Memory :                               191706.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                49
+    Run time :                                   16329 sec.
+    Turnaround time :                            20995 sec.
+
+The output (if any) follows:
+
+2020-07-27 20:42:07.145844: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-07-27 20:42:10.461271: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2020-07-27 20:42:10.519578: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.545
+pciBusID: 0000:3d:00.0
+2020-07-27 20:42:10.519618: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-07-27 20:42:10.522464: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-07-27 20:42:10.525254: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2020-07-27 20:42:10.525925: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2020-07-27 20:42:10.528101: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2020-07-27 20:42:10.529383: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2020-07-27 20:42:10.533409: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-07-27 20:42:10.536772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-07-27 20:42:10.537238: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX512F
+2020-07-27 20:42:10.543996: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2600000000 Hz
+2020-07-27 20:42:10.544548: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x4cb2db0 executing computations on platform Host. Devices:
+2020-07-27 20:42:10.544567: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): Host, Default Version
+2020-07-27 20:42:10.700721: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x4d3b3b0 executing computations on platform CUDA. Devices:
+2020-07-27 20:42:10.700783: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): GeForce RTX 2080 Ti, Compute Capability 7.5
+2020-07-27 20:42:10.704762: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.545
+pciBusID: 0000:3d:00.0
+2020-07-27 20:42:10.704863: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-07-27 20:42:10.704913: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-07-27 20:42:10.704950: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2020-07-27 20:42:10.704995: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2020-07-27 20:42:10.705030: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2020-07-27 20:42:10.705063: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2020-07-27 20:42:10.705096: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-07-27 20:42:10.712133: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-07-27 20:42:10.712230: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-07-27 20:42:11.188673: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-07-27 20:42:11.188945: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-07-27 20:42:11.188959: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-07-27 20:42:11.192905: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10189 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:3d:00.0, compute capability: 7.5)
+2020-07-27 20:43:12.306178: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-07-27 20:43:16.845025: W tensorflow/core/common_runtime/bfc_allocator.cc:239] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.75GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-07-27 20:43:16.845075: W tensorflow/core/common_runtime/bfc_allocator.cc:239] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.75GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-07-27 20:43:17.393227: W tensorflow/core/common_runtime/bfc_allocator.cc:239] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.06GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-07-27 20:43:17.393468: W tensorflow/core/common_runtime/bfc_allocator.cc:239] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.06GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+Running with extended data augmentation: (None, False, None, 3)
+
+
+
+5-Cross-Validation: u_net_cross_entropy_augmented_extended_2_None_False_None_3
+
+Split k=0
+Train on 2560 samples, validate on 20 samples
+Epoch 1/150
+
+Epoch 00001: val_loss improved from inf to 0.60285, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k0.h5
+2560/2560 - 195s - loss: 0.3415 - accuracy: 0.8566 - mean_io_u: 0.4014 - f1: 0.5398 - f1_binary: 0.6515 - val_loss: 0.6029 - val_accuracy: 0.8393 - val_mean_io_u: 0.4937 - val_f1: 0.4944 - val_f1_binary: 0.5122
+Epoch 2/150
+
+Epoch 00002: val_loss improved from 0.60285 to 0.37139, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k0.h5
+2560/2560 - 180s - loss: 0.1965 - accuracy: 0.9176 - mean_io_u: 0.4103 - f1: 0.7023 - f1_binary: 0.7819 - val_loss: 0.3714 - val_accuracy: 0.8817 - val_mean_io_u: 0.4494 - val_f1: 0.6527 - val_f1_binary: 0.6856
+Epoch 3/150
+
+Epoch 00003: val_loss improved from 0.37139 to 0.34786, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k0.h5
+2560/2560 - 180s - loss: 0.1577 - accuracy: 0.9347 - mean_io_u: 0.4175 - f1: 0.7623 - f1_binary: 0.8311 - val_loss: 0.3479 - val_accuracy: 0.9032 - val_mean_io_u: 0.4463 - val_f1: 0.7045 - val_f1_binary: 0.7280
+Epoch 4/150
+
+Epoch 00004: val_loss improved from 0.34786 to 0.26446, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k0.h5
+2560/2560 - 180s - loss: 0.1344 - accuracy: 0.9441 - mean_io_u: 0.4215 - f1: 0.7976 - f1_binary: 0.8572 - val_loss: 0.2645 - val_accuracy: 0.9190 - val_mean_io_u: 0.4465 - val_f1: 0.7559 - val_f1_binary: 0.7939
+Epoch 5/150
+
+Epoch 00005: val_loss improved from 0.26446 to 0.23376, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k0.h5
+2560/2560 - 180s - loss: 0.1142 - accuracy: 0.9522 - mean_io_u: 0.4337 - f1: 0.8273 - f1_binary: 0.8788 - val_loss: 0.2338 - val_accuracy: 0.9322 - val_mean_io_u: 0.4698 - val_f1: 0.7806 - val_f1_binary: 0.8227
+Epoch 6/150
+
+Epoch 00006: val_loss did not improve from 0.23376
+2560/2560 - 179s - loss: 0.1007 - accuracy: 0.9577 - mean_io_u: 0.4465 - f1: 0.8478 - f1_binary: 0.8933 - val_loss: 0.3136 - val_accuracy: 0.9055 - val_mean_io_u: 0.4499 - val_f1: 0.7531 - val_f1_binary: 0.7871
+Epoch 7/150
+
+Epoch 00007: val_loss did not improve from 0.23376
+2560/2560 - 179s - loss: 0.0911 - accuracy: 0.9617 - mean_io_u: 0.4430 - f1: 0.8616 - f1_binary: 0.9036 - val_loss: 0.2372 - val_accuracy: 0.9324 - val_mean_io_u: 0.4908 - val_f1: 0.7887 - val_f1_binary: 0.8277
+Epoch 8/150
+
+Epoch 00008: val_loss did not improve from 0.23376
+2560/2560 - 179s - loss: 0.0798 - accuracy: 0.9662 - mean_io_u: 0.4548 - f1: 0.8785 - f1_binary: 0.9152 - val_loss: 0.2695 - val_accuracy: 0.9254 - val_mean_io_u: 0.4970 - val_f1: 0.7866 - val_f1_binary: 0.8185
+Epoch 9/150
+
+Epoch 00009: val_loss improved from 0.23376 to 0.22573, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k0.h5
+2560/2560 - 180s - loss: 0.0720 - accuracy: 0.9694 - mean_io_u: 0.4639 - f1: 0.8902 - f1_binary: 0.9233 - val_loss: 0.2257 - val_accuracy: 0.9378 - val_mean_io_u: 0.4698 - val_f1: 0.8135 - val_f1_binary: 0.8400
+Epoch 10/150
+
+Epoch 00010: val_loss did not improve from 0.22573
+2560/2560 - 179s - loss: 0.0635 - accuracy: 0.9730 - mean_io_u: 0.4720 - f1: 0.9027 - f1_binary: 0.9323 - val_loss: 0.2504 - val_accuracy: 0.9324 - val_mean_io_u: 0.4820 - val_f1: 0.8059 - val_f1_binary: 0.8289
+Epoch 11/150
+
+Epoch 00011: val_loss did not improve from 0.22573
+2560/2560 - 179s - loss: 0.0610 - accuracy: 0.9740 - mean_io_u: 0.4781 - f1: 0.9068 - f1_binary: 0.9351 - val_loss: 0.2555 - val_accuracy: 0.9372 - val_mean_io_u: 0.5208 - val_f1: 0.8162 - val_f1_binary: 0.8350
+Epoch 12/150
+
+Epoch 00012: val_loss did not improve from 0.22573
+2560/2560 - 179s - loss: 0.0528 - accuracy: 0.9775 - mean_io_u: 0.4829 - f1: 0.9191 - f1_binary: 0.9438 - val_loss: 0.2573 - val_accuracy: 0.9412 - val_mean_io_u: 0.4807 - val_f1: 0.8236 - val_f1_binary: 0.8439
+Epoch 13/150
+
+Epoch 00013: val_loss did not improve from 0.22573
+2560/2560 - 179s - loss: 0.0483 - accuracy: 0.9794 - mean_io_u: 0.4891 - f1: 0.9263 - f1_binary: 0.9485 - val_loss: 0.2666 - val_accuracy: 0.9385 - val_mean_io_u: 0.4995 - val_f1: 0.8282 - val_f1_binary: 0.8427
+Epoch 14/150
+
+Epoch 00014: val_loss did not improve from 0.22573
+2560/2560 - 179s - loss: 0.0495 - accuracy: 0.9790 - mean_io_u: 0.5028 - f1: 0.9247 - f1_binary: 0.9475 - val_loss: 0.2864 - val_accuracy: 0.9338 - val_mean_io_u: 0.5614 - val_f1: 0.8132 - val_f1_binary: 0.8289
+Epoch 15/150
+
+Epoch 00015: val_loss did not improve from 0.22573
+2560/2560 - 179s - loss: 0.0414 - accuracy: 0.9822 - mean_io_u: 0.5189 - f1: 0.9363 - f1_binary: 0.9555 - val_loss: 0.3493 - val_accuracy: 0.9280 - val_mean_io_u: 0.5334 - val_f1: 0.7989 - val_f1_binary: 0.8112
+Epoch 16/150
+
+Epoch 00016: val_loss did not improve from 0.22573
+2560/2560 - 179s - loss: 0.0416 - accuracy: 0.9822 - mean_io_u: 0.5285 - f1: 0.9366 - f1_binary: 0.9555 - val_loss: 0.2997 - val_accuracy: 0.9398 - val_mean_io_u: 0.5346 - val_f1: 0.8286 - val_f1_binary: 0.8398
+Epoch 17/150
+
+Epoch 00017: val_loss did not improve from 0.22573
+2560/2560 - 179s - loss: 0.0351 - accuracy: 0.9849 - mean_io_u: 0.5446 - f1: 0.9460 - f1_binary: 0.9622 - val_loss: 0.2777 - val_accuracy: 0.9418 - val_mean_io_u: 0.5315 - val_f1: 0.8346 - val_f1_binary: 0.8458
+Epoch 00017: early stopping
+
+Split k=1
+Train on 2560 samples, validate on 20 samples
+Epoch 1/150
+
+Epoch 00001: val_loss improved from inf to 0.40489, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k1.h5
+2560/2560 - 181s - loss: 0.3272 - accuracy: 0.8527 - mean_io_u: 0.4033 - f1: 0.4916 - f1_binary: 0.5786 - val_loss: 0.4049 - val_accuracy: 0.7956 - val_mean_io_u: 0.3859 - val_f1: 0.4722 - val_f1_binary: 0.4934
+Epoch 2/150
+
+Epoch 00002: val_loss improved from 0.40489 to 0.29627, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k1.h5
+2560/2560 - 180s - loss: 0.2225 - accuracy: 0.9047 - mean_io_u: 0.4033 - f1: 0.6454 - f1_binary: 0.7325 - val_loss: 0.2963 - val_accuracy: 0.8782 - val_mean_io_u: 0.3859 - val_f1: 0.6641 - val_f1_binary: 0.7354
+Epoch 3/150
+
+Epoch 00003: val_loss did not improve from 0.29627
+2560/2560 - 179s - loss: 0.1843 - accuracy: 0.9224 - mean_io_u: 0.4033 - f1: 0.7093 - f1_binary: 0.7872 - val_loss: 0.3162 - val_accuracy: 0.8856 - val_mean_io_u: 0.3859 - val_f1: 0.6880 - val_f1_binary: 0.7182
+Epoch 4/150
+
+Epoch 00004: val_loss improved from 0.29627 to 0.19758, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k1.h5
+2560/2560 - 180s - loss: 0.1542 - accuracy: 0.9354 - mean_io_u: 0.4034 - f1: 0.7575 - f1_binary: 0.8256 - val_loss: 0.1976 - val_accuracy: 0.9170 - val_mean_io_u: 0.3859 - val_f1: 0.7586 - val_f1_binary: 0.8168
+Epoch 5/150
+
+Epoch 00005: val_loss improved from 0.19758 to 0.16416, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k1.h5
+2560/2560 - 180s - loss: 0.1365 - accuracy: 0.9432 - mean_io_u: 0.4037 - f1: 0.7851 - f1_binary: 0.8481 - val_loss: 0.1642 - val_accuracy: 0.9336 - val_mean_io_u: 0.3859 - val_f1: 0.7961 - val_f1_binary: 0.8510
+Epoch 6/150
+
+Epoch 00006: val_loss did not improve from 0.16416
+2560/2560 - 179s - loss: 0.1197 - accuracy: 0.9504 - mean_io_u: 0.4050 - f1: 0.8119 - f1_binary: 0.8680 - val_loss: 0.1834 - val_accuracy: 0.9235 - val_mean_io_u: 0.3914 - val_f1: 0.7996 - val_f1_binary: 0.8454
+Epoch 7/150
+
+Epoch 00007: val_loss improved from 0.16416 to 0.16352, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k1.h5
+2560/2560 - 180s - loss: 0.1073 - accuracy: 0.9553 - mean_io_u: 0.4089 - f1: 0.8309 - f1_binary: 0.8815 - val_loss: 0.1635 - val_accuracy: 0.9324 - val_mean_io_u: 0.4130 - val_f1: 0.8049 - val_f1_binary: 0.8516
+Epoch 8/150
+
+Epoch 00008: val_loss did not improve from 0.16352
+2560/2560 - 179s - loss: 0.0944 - accuracy: 0.9603 - mean_io_u: 0.4142 - f1: 0.8504 - f1_binary: 0.8956 - val_loss: 0.2660 - val_accuracy: 0.9114 - val_mean_io_u: 0.4382 - val_f1: 0.7581 - val_f1_binary: 0.7890
+Epoch 9/150
+
+Epoch 00009: val_loss improved from 0.16352 to 0.16308, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k1.h5
+2560/2560 - 180s - loss: 0.0837 - accuracy: 0.9647 - mean_io_u: 0.4259 - f1: 0.8671 - f1_binary: 0.9074 - val_loss: 0.1631 - val_accuracy: 0.9373 - val_mean_io_u: 0.4499 - val_f1: 0.8307 - val_f1_binary: 0.8660
+Epoch 10/150
+
+Epoch 00010: val_loss did not improve from 0.16308
+2560/2560 - 179s - loss: 0.0716 - accuracy: 0.9696 - mean_io_u: 0.4453 - f1: 0.8857 - f1_binary: 0.9203 - val_loss: 0.1742 - val_accuracy: 0.9357 - val_mean_io_u: 0.4421 - val_f1: 0.8313 - val_f1_binary: 0.8608
+Epoch 11/150
+
+Epoch 00011: val_loss did not improve from 0.16308
+2560/2560 - 179s - loss: 0.0728 - accuracy: 0.9692 - mean_io_u: 0.4399 - f1: 0.8848 - f1_binary: 0.9195 - val_loss: 0.1983 - val_accuracy: 0.9311 - val_mean_io_u: 0.4375 - val_f1: 0.8149 - val_f1_binary: 0.8431
+Epoch 12/150
+
+Epoch 00012: val_loss improved from 0.16308 to 0.15913, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k1.h5
+2560/2560 - 180s - loss: 0.0675 - accuracy: 0.9714 - mean_io_u: 0.4404 - f1: 0.8929 - f1_binary: 0.9251 - val_loss: 0.1591 - val_accuracy: 0.9406 - val_mean_io_u: 0.4337 - val_f1: 0.8476 - val_f1_binary: 0.8712
+Epoch 13/150
+
+Epoch 00013: val_loss did not improve from 0.15913
+2560/2560 - 179s - loss: 0.0554 - accuracy: 0.9763 - mean_io_u: 0.4557 - f1: 0.9118 - f1_binary: 0.9382 - val_loss: 0.1695 - val_accuracy: 0.9384 - val_mean_io_u: 0.4396 - val_f1: 0.8416 - val_f1_binary: 0.8636
+Epoch 14/150
+
+Epoch 00014: val_loss did not improve from 0.15913
+2560/2560 - 179s - loss: 0.0505 - accuracy: 0.9784 - mean_io_u: 0.4623 - f1: 0.9194 - f1_binary: 0.9436 - val_loss: 0.1741 - val_accuracy: 0.9370 - val_mean_io_u: 0.4403 - val_f1: 0.8460 - val_f1_binary: 0.8652
+Epoch 15/150
+
+Epoch 00015: val_loss did not improve from 0.15913
+2560/2560 - 179s - loss: 0.0482 - accuracy: 0.9794 - mean_io_u: 0.4598 - f1: 0.9231 - f1_binary: 0.9460 - val_loss: 0.1939 - val_accuracy: 0.9376 - val_mean_io_u: 0.4593 - val_f1: 0.8498 - val_f1_binary: 0.8670
+Epoch 16/150
+
+Epoch 00016: val_loss did not improve from 0.15913
+2560/2560 - 179s - loss: 0.0418 - accuracy: 0.9821 - mean_io_u: 0.4809 - f1: 0.9333 - f1_binary: 0.9533 - val_loss: 0.1688 - val_accuracy: 0.9438 - val_mean_io_u: 0.4589 - val_f1: 0.8626 - val_f1_binary: 0.8778
+Epoch 17/150
+
+Epoch 00017: val_loss did not improve from 0.15913
+2560/2560 - 179s - loss: 0.0419 - accuracy: 0.9821 - mean_io_u: 0.4846 - f1: 0.9334 - f1_binary: 0.9533 - val_loss: 0.1989 - val_accuracy: 0.9371 - val_mean_io_u: 0.4918 - val_f1: 0.8548 - val_f1_binary: 0.8691
+Epoch 18/150
+
+Epoch 00018: val_loss did not improve from 0.15913
+2560/2560 - 179s - loss: 0.0377 - accuracy: 0.9838 - mean_io_u: 0.4954 - f1: 0.9398 - f1_binary: 0.9579 - val_loss: 0.1895 - val_accuracy: 0.9392 - val_mean_io_u: 0.4924 - val_f1: 0.8565 - val_f1_binary: 0.8709
+Epoch 19/150
+
+Epoch 00019: val_loss did not improve from 0.15913
+2560/2560 - 179s - loss: 0.0353 - accuracy: 0.9848 - mean_io_u: 0.4986 - f1: 0.9436 - f1_binary: 0.9604 - val_loss: 0.2115 - val_accuracy: 0.9338 - val_mean_io_u: 0.5063 - val_f1: 0.8488 - val_f1_binary: 0.8604
+Epoch 20/150
+
+Epoch 00020: val_loss did not improve from 0.15913
+2560/2560 - 179s - loss: 0.0325 - accuracy: 0.9860 - mean_io_u: 0.5073 - f1: 0.9480 - f1_binary: 0.9635 - val_loss: 0.1990 - val_accuracy: 0.9440 - val_mean_io_u: 0.4984 - val_f1: 0.8629 - val_f1_binary: 0.8726
+Epoch 00020: early stopping
+
+Split k=2
+Train on 2560 samples, validate on 20 samples
+Epoch 1/150
+
+Epoch 00001: val_loss improved from inf to 0.40642, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k2.h5
+2560/2560 - 181s - loss: 0.3228 - accuracy: 0.8551 - mean_io_u: 0.4006 - f1: 0.5086 - f1_binary: 0.5949 - val_loss: 0.4064 - val_accuracy: 0.8345 - val_mean_io_u: 0.4002 - val_f1: 0.4908 - val_f1_binary: 0.5415
+Epoch 2/150
+
+Epoch 00002: val_loss improved from 0.40642 to 0.21228, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k2.h5
+2560/2560 - 180s - loss: 0.2158 - accuracy: 0.9081 - mean_io_u: 0.4006 - f1: 0.6679 - f1_binary: 0.7514 - val_loss: 0.2123 - val_accuracy: 0.9120 - val_mean_io_u: 0.4002 - val_f1: 0.6676 - val_f1_binary: 0.7487
+Epoch 3/150
+
+Epoch 00003: val_loss improved from 0.21228 to 0.19859, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k2.h5
+2560/2560 - 180s - loss: 0.1785 - accuracy: 0.9252 - mean_io_u: 0.4007 - f1: 0.7275 - f1_binary: 0.8032 - val_loss: 0.1986 - val_accuracy: 0.9244 - val_mean_io_u: 0.4024 - val_f1: 0.7547 - val_f1_binary: 0.8077
+Epoch 4/150
+
+Epoch 00004: val_loss did not improve from 0.19859
+2560/2560 - 179s - loss: 0.1591 - accuracy: 0.9338 - mean_io_u: 0.4010 - f1: 0.7577 - f1_binary: 0.8271 - val_loss: 0.2081 - val_accuracy: 0.9170 - val_mean_io_u: 0.4002 - val_f1: 0.6967 - val_f1_binary: 0.7496
+Epoch 5/150
+
+Epoch 00005: val_loss improved from 0.19859 to 0.16690, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k2.h5
+2560/2560 - 180s - loss: 0.1350 - accuracy: 0.9439 - mean_io_u: 0.4022 - f1: 0.7931 - f1_binary: 0.8552 - val_loss: 0.1669 - val_accuracy: 0.9408 - val_mean_io_u: 0.4030 - val_f1: 0.7661 - val_f1_binary: 0.8440
+Epoch 6/150
+
+Epoch 00006: val_loss did not improve from 0.16690
+2560/2560 - 179s - loss: 0.1187 - accuracy: 0.9503 - mean_io_u: 0.4034 - f1: 0.8175 - f1_binary: 0.8722 - val_loss: 0.1822 - val_accuracy: 0.9321 - val_mean_io_u: 0.4048 - val_f1: 0.7810 - val_f1_binary: 0.8179
+Epoch 7/150
+
+Epoch 00007: val_loss did not improve from 0.16690
+2560/2560 - 179s - loss: 0.1067 - accuracy: 0.9552 - mean_io_u: 0.4076 - f1: 0.8358 - f1_binary: 0.8850 - val_loss: 0.1827 - val_accuracy: 0.9321 - val_mean_io_u: 0.4309 - val_f1: 0.7760 - val_f1_binary: 0.8220
+Epoch 8/150
+
+Epoch 00008: val_loss did not improve from 0.16690
+2560/2560 - 179s - loss: 0.0973 - accuracy: 0.9592 - mean_io_u: 0.4072 - f1: 0.8501 - f1_binary: 0.8955 - val_loss: 0.1681 - val_accuracy: 0.9392 - val_mean_io_u: 0.4164 - val_f1: 0.8062 - val_f1_binary: 0.8447
+Epoch 9/150
+
+Epoch 00009: val_loss improved from 0.16690 to 0.14330, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k2.h5
+2560/2560 - 180s - loss: 0.0905 - accuracy: 0.9620 - mean_io_u: 0.4115 - f1: 0.8610 - f1_binary: 0.9035 - val_loss: 0.1433 - val_accuracy: 0.9490 - val_mean_io_u: 0.4259 - val_f1: 0.8230 - val_f1_binary: 0.8623
+Epoch 10/150
+
+Epoch 00010: val_loss did not improve from 0.14330
+2560/2560 - 179s - loss: 0.0758 - accuracy: 0.9680 - mean_io_u: 0.4195 - f1: 0.8824 - f1_binary: 0.9187 - val_loss: 0.1514 - val_accuracy: 0.9499 - val_mean_io_u: 0.4545 - val_f1: 0.8379 - val_f1_binary: 0.8663
+Epoch 11/150
+
+Epoch 00011: val_loss did not improve from 0.14330
+2560/2560 - 179s - loss: 0.0785 - accuracy: 0.9669 - mean_io_u: 0.4145 - f1: 0.8794 - f1_binary: 0.9159 - val_loss: 0.1768 - val_accuracy: 0.9393 - val_mean_io_u: 0.4388 - val_f1: 0.8193 - val_f1_binary: 0.8424
+Epoch 12/150
+
+Epoch 00012: val_loss did not improve from 0.14330
+2560/2560 - 179s - loss: 0.0611 - accuracy: 0.9740 - mean_io_u: 0.4299 - f1: 0.9052 - f1_binary: 0.9341 - val_loss: 0.1521 - val_accuracy: 0.9503 - val_mean_io_u: 0.4745 - val_f1: 0.8452 - val_f1_binary: 0.8671
+Epoch 13/150
+
+Epoch 00013: val_loss did not improve from 0.14330
+2560/2560 - 179s - loss: 0.0557 - accuracy: 0.9762 - mean_io_u: 0.4425 - f1: 0.9132 - f1_binary: 0.9397 - val_loss: 0.1656 - val_accuracy: 0.9492 - val_mean_io_u: 0.4925 - val_f1: 0.8510 - val_f1_binary: 0.8654
+Epoch 14/150
+
+Epoch 00014: val_loss did not improve from 0.14330
+2560/2560 - 179s - loss: 0.0496 - accuracy: 0.9788 - mean_io_u: 0.4556 - f1: 0.9229 - f1_binary: 0.9462 - val_loss: 0.1760 - val_accuracy: 0.9512 - val_mean_io_u: 0.4877 - val_f1: 0.8539 - val_f1_binary: 0.8695
+Epoch 15/150
+
+Epoch 00015: val_loss did not improve from 0.14330
+2560/2560 - 179s - loss: 0.0465 - accuracy: 0.9801 - mean_io_u: 0.4575 - f1: 0.9276 - f1_binary: 0.9493 - val_loss: 0.1887 - val_accuracy: 0.9508 - val_mean_io_u: 0.5168 - val_f1: 0.8582 - val_f1_binary: 0.8706
+Epoch 16/150
+
+Epoch 00016: val_loss did not improve from 0.14330
+2560/2560 - 179s - loss: 0.0426 - accuracy: 0.9817 - mean_io_u: 0.4686 - f1: 0.9340 - f1_binary: 0.9538 - val_loss: 0.1865 - val_accuracy: 0.9516 - val_mean_io_u: 0.4766 - val_f1: 0.8570 - val_f1_binary: 0.8721
+Epoch 17/150
+
+Epoch 00017: val_loss did not improve from 0.14330
+2560/2560 - 179s - loss: 0.0401 - accuracy: 0.9828 - mean_io_u: 0.4785 - f1: 0.9377 - f1_binary: 0.9563 - val_loss: 0.2100 - val_accuracy: 0.9474 - val_mean_io_u: 0.4750 - val_f1: 0.8425 - val_f1_binary: 0.8608
+Epoch 00017: early stopping
+
+Split k=3
+Train on 2560 samples, validate on 20 samples
+Epoch 1/150
+
+Epoch 00001: val_loss improved from inf to 0.81859, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k3.h5
+2560/2560 - 181s - loss: 0.3506 - accuracy: 0.8362 - mean_io_u: 0.4010 - f1: 0.4595 - f1_binary: 0.5524 - val_loss: 0.8186 - val_accuracy: 0.5107 - val_mean_io_u: 0.3999 - val_f1: 0.4203 - val_f1_binary: 0.4496
+Epoch 2/150
+
+Epoch 00002: val_loss improved from 0.81859 to 0.25028, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k3.h5
+2560/2560 - 180s - loss: 0.2532 - accuracy: 0.8875 - mean_io_u: 0.4010 - f1: 0.6011 - f1_binary: 0.6899 - val_loss: 0.2503 - val_accuracy: 0.9005 - val_mean_io_u: 0.3999 - val_f1: 0.6413 - val_f1_binary: 0.7055
+Epoch 3/150
+
+Epoch 00003: val_loss improved from 0.25028 to 0.20496, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k3.h5
+2560/2560 - 180s - loss: 0.2012 - accuracy: 0.9144 - mean_io_u: 0.4010 - f1: 0.6888 - f1_binary: 0.7688 - val_loss: 0.2050 - val_accuracy: 0.9219 - val_mean_io_u: 0.3999 - val_f1: 0.7245 - val_f1_binary: 0.7786
+Epoch 4/150
+
+Epoch 00004: val_loss improved from 0.20496 to 0.18044, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k3.h5
+2560/2560 - 180s - loss: 0.1688 - accuracy: 0.9290 - mean_io_u: 0.4010 - f1: 0.7412 - f1_binary: 0.8123 - val_loss: 0.1804 - val_accuracy: 0.9266 - val_mean_io_u: 0.3999 - val_f1: 0.7225 - val_f1_binary: 0.7853
+Epoch 5/150
+
+Epoch 00005: val_loss did not improve from 0.18044
+2560/2560 - 179s - loss: 0.1482 - accuracy: 0.9387 - mean_io_u: 0.4010 - f1: 0.7737 - f1_binary: 0.8398 - val_loss: 0.2337 - val_accuracy: 0.9142 - val_mean_io_u: 0.3999 - val_f1: 0.7056 - val_f1_binary: 0.7417
+Epoch 6/150
+
+Epoch 00006: val_loss improved from 0.18044 to 0.17396, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k3.h5
+2560/2560 - 180s - loss: 0.1303 - accuracy: 0.9465 - mean_io_u: 0.4011 - f1: 0.8014 - f1_binary: 0.8613 - val_loss: 0.1740 - val_accuracy: 0.9290 - val_mean_io_u: 0.3999 - val_f1: 0.7613 - val_f1_binary: 0.8184
+Epoch 7/150
+
+Epoch 00007: val_loss did not improve from 0.17396
+2560/2560 - 179s - loss: 0.1160 - accuracy: 0.9518 - mean_io_u: 0.4028 - f1: 0.8217 - f1_binary: 0.8756 - val_loss: 0.1743 - val_accuracy: 0.9311 - val_mean_io_u: 0.4030 - val_f1: 0.7574 - val_f1_binary: 0.8018
+Epoch 8/150
+
+Epoch 00008: val_loss improved from 0.17396 to 0.15961, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k3.h5
+2560/2560 - 180s - loss: 0.1034 - accuracy: 0.9570 - mean_io_u: 0.4061 - f1: 0.8414 - f1_binary: 0.8892 - val_loss: 0.1596 - val_accuracy: 0.9373 - val_mean_io_u: 0.4057 - val_f1: 0.7853 - val_f1_binary: 0.8275
+Epoch 9/150
+
+Epoch 00009: val_loss improved from 0.15961 to 0.15020, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k3.h5
+2560/2560 - 180s - loss: 0.0928 - accuracy: 0.9611 - mean_io_u: 0.4118 - f1: 0.8572 - f1_binary: 0.9004 - val_loss: 0.1502 - val_accuracy: 0.9417 - val_mean_io_u: 0.4862 - val_f1: 0.8096 - val_f1_binary: 0.8445
+Epoch 10/150
+
+Epoch 00010: val_loss did not improve from 0.15020
+2560/2560 - 179s - loss: 0.0854 - accuracy: 0.9641 - mean_io_u: 0.4167 - f1: 0.8678 - f1_binary: 0.9081 - val_loss: 0.1795 - val_accuracy: 0.9402 - val_mean_io_u: 0.4408 - val_f1: 0.7972 - val_f1_binary: 0.8258
+Epoch 11/150
+
+Epoch 00011: val_loss did not improve from 0.15020
+2560/2560 - 179s - loss: 0.0825 - accuracy: 0.9652 - mean_io_u: 0.4205 - f1: 0.8725 - f1_binary: 0.9109 - val_loss: 0.1586 - val_accuracy: 0.9440 - val_mean_io_u: 0.4535 - val_f1: 0.8200 - val_f1_binary: 0.8450
+Epoch 12/150
+
+Epoch 00012: val_loss did not improve from 0.15020
+2560/2560 - 179s - loss: 0.0699 - accuracy: 0.9702 - mean_io_u: 0.4362 - f1: 0.8916 - f1_binary: 0.9240 - val_loss: 0.1642 - val_accuracy: 0.9440 - val_mean_io_u: 0.4668 - val_f1: 0.8217 - val_f1_binary: 0.8469
+Epoch 13/150
+
+Epoch 00013: val_loss did not improve from 0.15020
+2560/2560 - 179s - loss: 0.0672 - accuracy: 0.9715 - mean_io_u: 0.4378 - f1: 0.8960 - f1_binary: 0.9271 - val_loss: 0.4684 - val_accuracy: 0.8966 - val_mean_io_u: 0.4222 - val_f1: 0.6472 - val_f1_binary: 0.6671
+Epoch 14/150
+
+Epoch 00014: val_loss did not improve from 0.15020
+2560/2560 - 180s - loss: 0.0592 - accuracy: 0.9747 - mean_io_u: 0.4332 - f1: 0.9077 - f1_binary: 0.9355 - val_loss: 0.1907 - val_accuracy: 0.9396 - val_mean_io_u: 0.4672 - val_f1: 0.8070 - val_f1_binary: 0.8251
+Epoch 15/150
+
+Epoch 00015: val_loss did not improve from 0.15020
+2560/2560 - 180s - loss: 0.0535 - accuracy: 0.9771 - mean_io_u: 0.4534 - f1: 0.9168 - f1_binary: 0.9417 - val_loss: 0.1706 - val_accuracy: 0.9444 - val_mean_io_u: 0.4495 - val_f1: 0.8281 - val_f1_binary: 0.8461
+Epoch 16/150
+
+Epoch 00016: val_loss did not improve from 0.15020
+2560/2560 - 180s - loss: 0.0490 - accuracy: 0.9790 - mean_io_u: 0.4693 - f1: 0.9237 - f1_binary: 0.9465 - val_loss: 0.2042 - val_accuracy: 0.9452 - val_mean_io_u: 0.5038 - val_f1: 0.8264 - val_f1_binary: 0.8419
+Epoch 17/150
+
+Epoch 00017: val_loss did not improve from 0.15020
+2560/2560 - 180s - loss: 0.0469 - accuracy: 0.9800 - mean_io_u: 0.4714 - f1: 0.9273 - f1_binary: 0.9491 - val_loss: 0.2423 - val_accuracy: 0.9254 - val_mean_io_u: 0.4604 - val_f1: 0.7721 - val_f1_binary: 0.7870
+Epoch 00017: early stopping
+
+Split k=4
+Train on 2560 samples, validate on 20 samples
+Epoch 1/150
+
+Epoch 00001: val_loss improved from inf to 0.45064, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k4.h5
+2560/2560 - 181s - loss: 0.3632 - accuracy: 0.8319 - mean_io_u: 0.3981 - f1: 0.4569 - f1_binary: 0.5385 - val_loss: 0.4506 - val_accuracy: 0.8082 - val_mean_io_u: 0.4112 - val_f1: 0.4350 - val_f1_binary: 0.4785
+Epoch 2/150
+
+Epoch 00002: val_loss improved from 0.45064 to 0.22406, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k4.h5
+2560/2560 - 180s - loss: 0.2588 - accuracy: 0.8862 - mean_io_u: 0.3981 - f1: 0.6051 - f1_binary: 0.6954 - val_loss: 0.2241 - val_accuracy: 0.8997 - val_mean_io_u: 0.4112 - val_f1: 0.6652 - val_f1_binary: 0.7421
+Epoch 3/150
+
+Epoch 00003: val_loss did not improve from 0.22406
+2560/2560 - 180s - loss: 0.1991 - accuracy: 0.9151 - mean_io_u: 0.3981 - f1: 0.7013 - f1_binary: 0.7799 - val_loss: 0.2959 - val_accuracy: 0.9037 - val_mean_io_u: 0.4112 - val_f1: 0.6066 - val_f1_binary: 0.6349
+Epoch 4/150
+
+Epoch 00004: val_loss improved from 0.22406 to 0.17575, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k4.h5
+2560/2560 - 181s - loss: 0.1691 - accuracy: 0.9287 - mean_io_u: 0.3981 - f1: 0.7483 - f1_binary: 0.8182 - val_loss: 0.1758 - val_accuracy: 0.9232 - val_mean_io_u: 0.4112 - val_f1: 0.7346 - val_f1_binary: 0.8024
+Epoch 5/150
+
+Epoch 00005: val_loss improved from 0.17575 to 0.16734, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k4.h5
+2560/2560 - 181s - loss: 0.1468 - accuracy: 0.9386 - mean_io_u: 0.3981 - f1: 0.7810 - f1_binary: 0.8451 - val_loss: 0.1673 - val_accuracy: 0.9384 - val_mean_io_u: 0.4112 - val_f1: 0.7475 - val_f1_binary: 0.8079
+Epoch 6/150
+
+Epoch 00006: val_loss did not improve from 0.16734
+2560/2560 - 180s - loss: 0.1294 - accuracy: 0.9460 - mean_io_u: 0.3981 - f1: 0.8069 - f1_binary: 0.8645 - val_loss: 0.1958 - val_accuracy: 0.9320 - val_mean_io_u: 0.4119 - val_f1: 0.7271 - val_f1_binary: 0.7678
+Epoch 7/150
+
+Epoch 00007: val_loss improved from 0.16734 to 0.15375, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k4.h5
+2560/2560 - 181s - loss: 0.1166 - accuracy: 0.9511 - mean_io_u: 0.3985 - f1: 0.8258 - f1_binary: 0.8776 - val_loss: 0.1537 - val_accuracy: 0.9425 - val_mean_io_u: 0.4142 - val_f1: 0.7882 - val_f1_binary: 0.8367
+Epoch 8/150
+
+Epoch 00008: val_loss did not improve from 0.15375
+2560/2560 - 180s - loss: 0.1023 - accuracy: 0.9569 - mean_io_u: 0.3992 - f1: 0.8464 - f1_binary: 0.8926 - val_loss: 0.1620 - val_accuracy: 0.9414 - val_mean_io_u: 0.4230 - val_f1: 0.7915 - val_f1_binary: 0.8295
+Epoch 9/150
+
+Epoch 00009: val_loss improved from 0.15375 to 0.14473, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k4.h5
+2560/2560 - 181s - loss: 0.0918 - accuracy: 0.9610 - mean_io_u: 0.4005 - f1: 0.8621 - f1_binary: 0.9034 - val_loss: 0.1447 - val_accuracy: 0.9451 - val_mean_io_u: 0.4361 - val_f1: 0.7964 - val_f1_binary: 0.8424
+Epoch 10/150
+
+Epoch 00010: val_loss improved from 0.14473 to 0.14055, saving model to checkpoints/ckp_u_net_cross_entropy_augmented_extended_2_None_False_None_3_crossval-k4.h5
+2560/2560 - 181s - loss: 0.0870 - accuracy: 0.9632 - mean_io_u: 0.4021 - f1: 0.8696 - f1_binary: 0.9087 - val_loss: 0.1405 - val_accuracy: 0.9477 - val_mean_io_u: 0.4296 - val_f1: 0.8184 - val_f1_binary: 0.8525
+Epoch 11/150
+
+Epoch 00011: val_loss did not improve from 0.14055
+2560/2560 - 180s - loss: 0.0738 - accuracy: 0.9687 - mean_io_u: 0.4065 - f1: 0.8888 - f1_binary: 0.9227 - val_loss: 0.1447 - val_accuracy: 0.9507 - val_mean_io_u: 0.4683 - val_f1: 0.8208 - val_f1_binary: 0.8510
+Epoch 12/150
+
+Epoch 00012: val_loss did not improve from 0.14055
+2560/2560 - 180s - loss: 0.0664 - accuracy: 0.9718 - mean_io_u: 0.4170 - f1: 0.8997 - f1_binary: 0.9303 - val_loss: 0.1695 - val_accuracy: 0.9406 - val_mean_io_u: 0.4533 - val_f1: 0.8050 - val_f1_binary: 0.8302
+Epoch 13/150
+
+Epoch 00013: val_loss did not improve from 0.14055
+2560/2560 - 180s - loss: 0.0620 - accuracy: 0.9736 - mean_io_u: 0.4207 - f1: 0.9065 - f1_binary: 0.9348 - val_loss: 0.1418 - val_accuracy: 0.9484 - val_mean_io_u: 0.4810 - val_f1: 0.8219 - val_f1_binary: 0.8481
+Epoch 14/150
+
+Epoch 00014: val_loss did not improve from 0.14055
+2560/2560 - 180s - loss: 0.0545 - accuracy: 0.9767 - mean_io_u: 0.4313 - f1: 0.9176 - f1_binary: 0.9425 - val_loss: 0.1577 - val_accuracy: 0.9459 - val_mean_io_u: 0.4622 - val_f1: 0.8220 - val_f1_binary: 0.8466
+Epoch 15/150
+
+Epoch 00015: val_loss did not improve from 0.14055
+2560/2560 - 180s - loss: 0.0512 - accuracy: 0.9782 - mean_io_u: 0.4411 - f1: 0.9228 - f1_binary: 0.9461 - val_loss: 0.1678 - val_accuracy: 0.9442 - val_mean_io_u: 0.5105 - val_f1: 0.8273 - val_f1_binary: 0.8462
+Epoch 16/150
+
+Epoch 00016: val_loss did not improve from 0.14055
+2560/2560 - 180s - loss: 0.0602 - accuracy: 0.9747 - mean_io_u: 0.4287 - f1: 0.9103 - f1_binary: 0.9374 - val_loss: 0.1649 - val_accuracy: 0.9477 - val_mean_io_u: 0.4464 - val_f1: 0.8255 - val_f1_binary: 0.8495
+Epoch 17/150
+
+Epoch 00017: val_loss did not improve from 0.14055
+2560/2560 - 180s - loss: 0.0474 - accuracy: 0.9798 - mean_io_u: 0.4215 - f1: 0.9283 - f1_binary: 0.9502 - val_loss: 0.1692 - val_accuracy: 0.9442 - val_mean_io_u: 0.4990 - val_f1: 0.8286 - val_f1_binary: 0.8450
+Epoch 18/150
+
+Epoch 00018: val_loss did not improve from 0.14055
+2560/2560 - 180s - loss: 0.0402 - accuracy: 0.9828 - mean_io_u: 0.4499 - f1: 0.9391 - f1_binary: 0.9575 - val_loss: 0.1560 - val_accuracy: 0.9521 - val_mean_io_u: 0.5293 - val_f1: 0.8467 - val_f1_binary: 0.8622
+Epoch 00018: early stopping
+
+CROSS-VALIDATION-RESULTS
+model_name: u_net_cross_entropy_augmented_extended_2_None_False_None_3
+optimizer: <tensorflow.python.keras.optimizer_v2.adam.Adam object at 0x2b6ec338add0>
+loss: binary_crossentropy
+epoches: 100, early_stopping_patience = 8
+
+METRICS
+k=0 {'loss': 0.03514854753739201, 'accuracy': 0.98487765, 'mean_io_u': 0.5446062, 'f1': 0.9459566, 'f1_binary': 0.9622177, 'val_loss': 0.277735498547554, 'val_accuracy': 0.9418243, 'val_mean_io_u': 0.5315008, 'val_f1': 0.8345852, 'val_f1_binary': 0.8457904}
+k=1 {'loss': 0.03249310881947167, 'accuracy': 0.9859976, 'mean_io_u': 0.507301, 'f1': 0.9480465, 'f1_binary': 0.96348774, 'val_loss': 0.1990244597196579, 'val_accuracy': 0.94396025, 'val_mean_io_u': 0.49840918, 'val_f1': 0.86287475, 'val_f1_binary': 0.8725722}
+k=2 {'loss': 0.04014538845513016, 'accuracy': 0.98277944, 'mean_io_u': 0.4784586, 'f1': 0.93765366, 'f1_binary': 0.9563438, 'val_loss': 0.21001574397087097, 'val_accuracy': 0.94741035, 'val_mean_io_u': 0.4749705, 'val_f1': 0.84253913, 'val_f1_binary': 0.860823}
+k=3 {'loss': 0.04685699251713231, 'accuracy': 0.97998595, 'mean_io_u': 0.47141933, 'f1': 0.9272604, 'f1_binary': 0.94905263, 'val_loss': 0.24227588772773742, 'val_accuracy': 0.9254428, 'val_mean_io_u': 0.4604113, 'val_f1': 0.7721345, 'val_f1_binary': 0.7869777}
+k=4 {'loss': 0.040155248506926, 'accuracy': 0.98276603, 'mean_io_u': 0.44987595, 'f1': 0.93910027, 'f1_binary': 0.957543, 'val_loss': 0.1560059070587158, 'val_accuracy': 0.9520946, 'val_mean_io_u': 0.52933353, 'val_f1': 0.8467005, 'val_f1_binary': 0.8621653}
+
+AVERAGE-METRICS
+{'loss': 0.03895985716721043, 'accuracy': 0.9832813262939453, 'mean_io_u': 0.49033222198486326, 'f1': 0.9396035194396972, 'f1_binary': 0.9577289581298828, 'val_loss': 0.21701149940490722, 'val_accuracy': 0.9421464920043945, 'val_mean_io_u': 0.4989250659942627, 'val_f1': 0.8317667961120605, 'val_f1_binary': 0.8456657409667969}
