@@ -14,7 +14,7 @@ from tensorflow.keras.layers import Conv2D, MaxPool2D, Dense, Flatten
 
 
 
-def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
+def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False, out_activation='sigmoid'):
 
     inputs = Input((IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS))
 
@@ -114,7 +114,7 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
     conv13 = Conv2D(16, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same') (conv13)
     conv13 = BatchNormalization() (conv13)
 
-    outputs = Conv2D(1, (1, 1), activation='sigmoid') (conv13)
+    outputs = Conv2D(1, (1, 1), activation=out_activation) (conv13)
 
     model = Model(inputs=[inputs], outputs=[outputs])
 

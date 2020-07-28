@@ -10,7 +10,7 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import datetime
 
 
-def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
+def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False, out_activation='sigmoid'):
     tf.compat.v1.reset_default_graph()
     tf.random.set_seed(42424242)
     tf.compat.v1.set_random_seed(42424242)
@@ -91,7 +91,7 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, do_compile=False):
     c9 = Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c9)
     c9 = BatchNormalization()(c9)
 
-    outputs = Conv2D(1, (1, 1), activation='sigmoid')(c9)
+    outputs = Conv2D(1, (1, 1), activation=out_activation)(c9)
 
     model = Model(inputs=[inputs], outputs=[outputs])
     if do_compile:
