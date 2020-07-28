@@ -11,3 +11,6 @@ scikit-learn
 scikit-image
 pandas
 tqdm
+
+
+pip install -q git+https://github.com/tensorflow/examples.git
