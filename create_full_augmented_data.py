@@ -118,8 +118,8 @@ def main():
         augment_label(original_train_label[i], 'original_' + str(i), path_train[1])
     
     
-    chicago_image_files = sorted(glob.glob('chicago_data/split/images/*.png'))
-    chicago_label_files = sorted(glob.glob('chicago_data/split/labels/*.png'))
+    chicago_image_files = sorted(glob.glob('chicago_data/split_quarter/images/*.png'))
+    chicago_label_files = sorted(glob.glob('chicago_data/split_quarter/labels/*.png'))
     
     random.seed(42424242)
     for i in range(len(chicago_image_files)):
