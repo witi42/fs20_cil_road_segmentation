@@ -126,12 +126,16 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
 
 
 def main():
-    from models.sdf_model import get_baseline_SDFt
+    from models.sdf_model import get_baseline_SDFt, get_flat_tanh_SDFt
 
-    # u_net_cross_entropy
     model = get_baseline_SDFt('mse')
     model_name = 'SDF-tanh Baseline with Unet2'
     
+    cross_val(model, model_name)
+
+    model = get_flat_tanh_SDFt()
+    model_name = 'SDF-tanh with scaled tanh (0.1), unet2'
+
     cross_val(model, model_name)
 
 
