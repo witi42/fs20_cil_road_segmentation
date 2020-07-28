@@ -141,3 +141,6 @@ dmypy.json
 # Chicago training data
 chicago_data/**/*.png
 chicago_data/**/*.png
+
+# Fully augmented data
+input_full/*
