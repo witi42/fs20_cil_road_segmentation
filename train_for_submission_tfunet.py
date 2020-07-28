@@ -18,17 +18,6 @@ from preproc import data_generator
 
 
 def main():
-    x1, y1 = data.get_training_data()
-    x2, y2 = data.get_training_data2()
-
-    print('x1, y1',x1.shape, y1.shape)
-    x1_train, x_test, y1_train, y_test = train_test_split(x1, y1, test_size=0.3, random_state=42424242)
-
-
-    print('x1_train, x2', x1_train.shape, x2.shape, x1_train.dtype, x2.dtype)
-    x = np.concatenate((x1_train, x2), axis=0)
-    print(y1_train.shape, y2.shape)
-    y = np.concatenate((y1_train, y2), axis=0)
 
     from models import tf_unet
 
