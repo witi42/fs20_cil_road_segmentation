@@ -104,21 +104,24 @@ def augment_data(x, y):
     return x_aug, y_aug
 
 
-def augment_data_extended(x, y, saturation = None, use_grayscale = False, blur_amount = None, num_random_rotations = 3):
+def augment_data_extended(x, y, saturation = None, use_grayscale = False, blur_amount = None, num_random_rotations = 3, discard_original = False):
     x = random_rotate(x, num_rotations = num_random_rotations)
     y = random_rotate(y, num_rotations = num_random_rotations)
     
     if (saturation != None):
-        x = saturate(x, saturation)
-        y = duplicate(y, 2) # don't need to desaturate groundtruth, just copy it
+        x = saturate(x, saturation, discard_original)
+        if not discard_original:
+            y = duplicate(y, 2) # don't need to desaturate groundtruth, just copy it
     
     if use_grayscale:
-        x = grayscale(x)
-        y = duplicate(y, 2)
+        x = grayscale(x, discard_original)
+        if not discard_original:
+            y = duplicate(y, 2)
     
     if blur_amount != None:
-        x = blur(x, blur_amount)
-        y = duplicate(y, 2)
+        x = blur(x, blur_amount, discard_original)
+        if not discard_original:
+            y = duplicate(y, 2)
     
     x = flip_and_rotate(x)
     y = flip_and_rotate(y)
@@ -171,11 +174,12 @@ def rotate(x):
 
 
 # if we flip and rotate together we only need to flip once, the other would be redundant
-def flip_and_rotate(x):
+def flip_and_rotate(x, discard_original = False):
     l = []
     for i in range(x.shape[0]):
         image_flip = np.flipud(x[i])
-        l.append(x[i])
+        if not discard_original:
+            l.append(x[i])
         l.append(image_flip)
         for deg in [90, 180, 270]:
             l.append(skimage.transform.rotate(x[i], deg, preserve_range = True))
@@ -183,47 +187,54 @@ def flip_and_rotate(x):
     return np.asarray(l)
 
 
-def random_rotate(x, num_rotations = 3, seed = '4815162342', min_deg = 20, max_deg = 70):
+def random_rotate(x, num_rotations = 3, seed = '4815162342', min_deg = 10, max_deg = 80, discard_original = False, sharpen = False):
     """
     When specifying a seed, make sure the same seed is used for the groundtruth as well!
     """
-    random.seed(seed)
+    if seed != None:
+        random.seed(seed)
     l = []
     original_size = (x.shape[1], x.shape[2])
     w = original_size[0]
     c_1 = int(w / 2 - w / math.sqrt(8))
     c_2 = int(w - c_1)
     for i in range(x.shape[0]):
-        l.append(x[i])
+        if not discard_original:
+            l.append(x[i])
         for j in range(num_rotations):
             deg = random.randrange(min_deg, max_deg)
             img_rot = skimage.transform.rotate(x[i], deg, preserve_range = True)                # rotate
             img_rot = img_rot[c_1:c_2, c_1:c_2]                                                 # crop black area away
             img_rot = skimage.transform.resize(img_rot, original_size, preserve_range = True)   # resize to original size
+            if sharpen:
+                img_rot = filters.unsharp_mask(img_rot, radius = 1.0, amount = 1.5, multichannel = True, preserve_range = False)
             l.append(img_rot)
     return np.asarray(l)
 
 
-def grayscale(x):
+def grayscale(x, discard_original = False):
     l = []
     for i in range(x.shape[0]):
-        l.append(x[i])
+        if not discard_original:
+            l.append(x[i])
         l.append(gray2rgb(rgb2gray(x[i])))
     return np.asarray(l)
 
 
-def blur(x, sigma):
+def blur(x, sigma, discard_original = False):
     l = []
     for i in range(x.shape[0]):
-        l.append(x[i])
+        if not discard_original:
+            l.append(x[i])
         l.append(filters.gaussian(x[i], sigma = sigma, multichannel = True, preserve_range = True))
     return np.asarray(l)
 
 
-def saturate(x, factor):
+def saturate(x, factor, discard_original = False):
     l = []
     for i in range(x.shape[0]):
-        l.append(x[i])
+        if not discard_original:
+            l.append(x[i])
         image_sat = rgb2hsv(x[i])
         image_sat[:, :, 1] = (1 - (1 - image_sat[:, :, 1]) ** factor)
         l.append(hsv2rgb(image_sat))
