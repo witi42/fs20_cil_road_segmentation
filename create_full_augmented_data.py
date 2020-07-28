@@ -108,32 +108,39 @@ def main():
     save_image_label_list(original_train, original_train_label, 'original', path_train)
     save_image_label_list(original_val, original_val_label, 'original', path_val)
     
-    random.seed(42424242)
-    for i in range(original_train.shape[0]):
+    num_cores = multiprocessing.cpu_count()
+    
+    def aug_1(i):
         augment_image(original_train[i], 'original_' + str(i), path_train[0])
-    
-    
     random.seed(42424242)
-    for i in range(original_train_label.shape[0]):
+    Parallel(n_jobs=num_cores)(delayed(aug_1)(i) for i in range(original_train.shape[0]))
+    
+    
+    def aug_2(i):
         augment_label(original_train_label[i], 'original_' + str(i), path_train[1])
+    random.seed(42424242)
+    Parallel(n_jobs=num_cores)(delayed(aug_2)(i) for i in range(original_train_label.shape[0]))
+        
     
     
     chicago_image_files = sorted(glob.glob('chicago_data/split/images/*.png'))
     chicago_label_files = sorted(glob.glob('chicago_data/split/labels/*.png'))
     
-    random.seed(42424242)
-    for i in range(len(chicago_image_files)):
+    def aug_3(i):
         image = Image.open(chicago_image_files[i])
         image = np.asarray(image) / 255.
         save_image(image, path_train[0] + 'chicago_' + str(i) + '.png')
         augment_image(image, 'chicago_' + str(i), path_train[0])
-    
     random.seed(42424242)
-    for i in range(len(chicago_image_files)):
+    Parallel(n_jobs=num_cores)(delayed(aug_3)(i) for i in range(len(chicago_image_files)))
+        
+    def aug_4(i):
         label = Image.open(chicago_label_files[i])
         label = np.asarray(label) / 255.
         save_image(label, path_train[1] + 'chicago_' + str(i) + '.png')
         augment_label(label, 'chicago_' + str(i), path_train[1])
+    random.seed(42424242)
+    Parallel(n_jobs=num_cores)(delayed(aug_4)(i) for i in range(len(chicago_image_files)))
         
     
 
