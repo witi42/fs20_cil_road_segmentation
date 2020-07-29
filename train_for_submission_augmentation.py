@@ -24,6 +24,7 @@ def train_sub(model, model_name, train, val, epochs=100, batch_size=8, verbose=2
 
     print('\n\n\nMODEL:' + model_name)
     earlystopper = EarlyStopping(patience=8, verbose=2)
+    os.makedirs("checkpoints", exist_ok = True)
     model_path_name = 'checkpoints/ckp_{}.h5'.format(model_name)
     checkpointer = ModelCheckpoint(model_path_name, verbose=1, save_best_only=True)
 
@@ -36,6 +37,7 @@ def train_sub(model, model_name, train, val, epochs=100, batch_size=8, verbose=2
                         verbose=verbose)
 
     model.load_weights(model_path_name)
+
     submission.create(model, model_name)
 
 
