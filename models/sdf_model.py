@@ -4,6 +4,24 @@ import models.unet2 as unet2
 import models.cnn as cnn
 from activations.fanh import get_scaled_tanh
 from metrics.sdf_acc import sdf_accuracy, sdf_f1, SDFMeanIOU
+from preproc.data_generator import DataGenerator, Sequence
+
+
+class SDFDataGeneratorWrapper(Sequence):
+    def __init__(self, generator, y_fn=lambda y: y, x_fn=lambda x: x):
+        self.generator = generator
+        self.y_fn = y_fn
+        self.x_fn = x_fn
+
+    def __len__(self):
+        return self.generator.__len__()
+
+    def __getitem__(self, item):
+        x, y = self.generator.__getitem__(item)
+        x = self.x_fn(x)
+        y = self.y_fn(y)
+
+        return x, y
 
 
 class GenericSDFModel:
@@ -15,16 +33,28 @@ class GenericSDFModel:
         else:
             self.transform = lambda x: x
 
-    def fit(self, x, y, *args, **kwargs):
+    def fit(self, x, y=None, *args, **kwargs):
         print("Converting GT to SDF and applying transform")
         print("Make sure the model has corresponding outputs")
-        y_sdf = self.transform(sdf.sdf(y))
-        if 'validation_data' in kwargs:
-            x_val, y_val = kwargs['validation_data']
-            y_val_sdf = self.transform(sdf.sdf(y_val))
-            kwargs['validation_data'] = (x_val, y_val_sdf)
+        if y is None:
+            assert isinstance(x, Sequence)
+            x = SDFDataGeneratorWrapper(x, y_fn=lambda y: self.transform(sdf.sdf(y)))
+            if 'validation_data' in kwargs:
+                val = kwargs['validation_data']
+                val = SDFDataGeneratorWrapper(val, y_fn=lambda y: self.transform(sdf.sdf(y)))
+                kwargs['validation_data'] = val
+        else:
+            y = self.transform(sdf.sdf(y))
+            if 'validation_data' in kwargs:
+                x_val, y_val = kwargs['validation_data']
+                y_val_sdf = self.transform(sdf.sdf(y_val))
+                kwargs['validation_data'] = (x_val, y_val_sdf)
         print("Training Model")
-        return self.model.fit(x, y_sdf, *args, **kwargs)
+        return self.model.fit(x, y, *args, **kwargs)
+
+    def fit_generator(self, *args, **kwargs):
+        print("Using Data from the generator which should already be preprocessed")
+        return self.model.fit(*args, **kwargs)
 
     def predict(self, x, *args, **kwargs):
         return self.model.predict(x, *args, **kwargs) <= 0
@@ -37,6 +67,9 @@ class GenericSDFModel:
 
     def set_weights(self, *args, **kwargs):
         return self.model.set_weights(*args, **kwargs)
+
+    def load_weights(self, *args, **kwargs):
+        return self.model.load_weights(*args, **kwargs)
 
 
 def get_baseline_SDFt(loss=None):

@@ -31,7 +31,7 @@ class DataGenerator(Sequence):
         
         y = (y > 0.5).astype(np.uint8)
 
-        y = y.reshape(list(y.shape) + [1])
+        #y = y.reshape(list(y.shape) + [1])
         
         return x,y
 
@@ -49,6 +49,21 @@ def get_train_iter(images='input/large_dataset/train/image/*.png', labels='input
 
 def get_val_iter(images='input/large_dataset/val/image/*.png', labels='input/large_dataset/val/label/*.png', batch_size=8):
     return DataGenerator(images, labels, batch_size)
+
+#returns train and validation iterator
+#aug= choose augmentation level: None, 'small', 'medium', 'large'
+def get_train_val_iterators(aug=None, base_dir='input/ds/', batch_size=8):
+    if aug == 'small':
+        base_dir = 'input/ds_aug_small/'
+    if aug == 'medium':
+        base_dir = 'input/ds_aug_intermediate/'
+    if aug == 'large':
+        base_dir = 'input/ds_aug_large/'
+    
+    train_it = get_train_iter(images= base_dir + 'train/image/*.png', labels= base_dir + 'train/label/*.png', batch_size=batch_size)
+    val_it = get_val_iter(images= base_dir + 'val/image/*.png', labels= base_dir + 'val/label/*.png', batch_size=batch_size)
+
+    return train_it, val_it
 
 
 class DataGenerator224(Sequence):
@@ -93,8 +108,8 @@ class DataGenerator224(Sequence):
         return np.asarray(x)
 
 
-def get_train_iter224(images='input/large_dataset/train/image/*.png', labels='input/large_dataset/train/label/*.png', batch_size=8):
+def get_train_iter224(images='input/ds/train/image/*.png', labels='input/ds/train/label/*.png', batch_size=8):
     return DataGenerator224(images, labels, batch_size)
 
-def get_val_iter224(images='input/large_dataset/val/image/*.png', labels='input/large_dataset/val/label/*.png', batch_size=8):
+def get_val_iter224(images='input/ds/val/image/*.png', labels='input/ds/val/label/*.png', batch_size=8):
     return DataGenerator224(images, labels, batch_size)
