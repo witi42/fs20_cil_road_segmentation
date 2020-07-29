@@ -6,6 +6,10 @@ import os
 import preproc.get_data as data
 from sklearn.model_selection import train_test_split
 from distutils.dir_util import copy_tree
+import shutil
+
+
+from sklearn.model_selection import train_test_split
 
 
 
@@ -126,8 +130,52 @@ def augment_label(label, base_tag):
 
 
 
+def create_split_ds():
+    src = ('input/ds/train/image/', 'input/ds/train/label/')
+    src_val = ('input/ds/val/image/', 'input/ds/val/label/')
+
+
+
+    #create folders
+    os.makedirs(src_val[0], exist_ok = True)
+    os.makedirs(src_val[1], exist_ok = True)
+    os.makedirs(src[0], exist_ok = True)
+    os.makedirs(src[1], exist_ok = True)
+
+
+    original_i = glob.glob('input/original/image/*.png')
+    original_l = glob.glob('input/original/label/*.png')
+
+    o_train_i, val_i = train_test_split(original_i, test_size=0.3, random_state=42424242)
+    o_train_l, val_l = train_test_split(original_l, test_size=0.3, random_state=42424242)
+
+    print('i',o_train_i)
+    print('l',o_train_l)
+
+    chicago_i = glob.glob('input/chicago/image/*.png')
+    chicago_l = glob.glob('input/chicago/label/*.png')
+
+    train_i = o_train_i + chicago_i
+    train_l = o_train_l + chicago_l
+
+    #copy files
+    for f in train_i:
+        shutil.copy(f, src[0])
+    for f in train_l:
+        shutil.copy(f, src[1])
+    for f in val_i:
+        shutil.copy(f, src_val[0])
+    for f in val_l:
+        shutil.copy(f, src_val[1])
+
+
 
 def main():
+    #create ds
+    #create_split_ds()
+
+
+
     # handle folders
     os.makedirs(path_small[0], exist_ok = True)
     os.makedirs(path_small[1], exist_ok = True)
