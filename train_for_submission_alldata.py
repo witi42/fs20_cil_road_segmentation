@@ -18,7 +18,7 @@ from submission import model_to_submission as submission
 
 
 
-def train_sub(model, model_name, x, y, epochs=100, batch_size=8, verbose=2):
+def train_sub(model, model_name, x, y, validation_data = None, epochs=100, batch_size=8, verbose=2):
     tf.compat.v1.reset_default_graph()
     tf.random.set_seed(42424242)
     tf.compat.v1.set_random_seed(42424242)
