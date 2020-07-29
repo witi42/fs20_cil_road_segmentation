@@ -13,6 +13,7 @@ import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import os
 
+PATIENCE = 20
 
 def fit(model, X_train, Y_train, epochs=2, validation_split=0, validation_data=None, use_class_weight=False,
         checkpoint_datetime=False, checkpoint_suffix="", batch_size=8, verbose=2):
@@ -21,7 +22,7 @@ def fit(model, X_train, Y_train, epochs=2, validation_split=0, validation_data=N
     tf.random.set_seed(42424242)
     tf.compat.v1.set_random_seed(42424242)
 
-    earlystopper = EarlyStopping(patience=8, verbose=2)
+    earlystopper = EarlyStopping(patience=PATIENCE, verbose=2)
     suffix = checkpoint_suffix
     if checkpoint_datetime:
         suffix += str(datetime.datetime.now())
@@ -94,7 +95,7 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
     print("model_name: " + model_name)
     #print("optimizer: " + str(model.optimizer))
     #print("loss: " + str(model.loss))
-    print("epochs: 100, early_stopping_patience = 8")
+    print("epochs: 100, early_stopping_patience = " + str(PATIENCE))
 
 
     print('\nMETRICS')
