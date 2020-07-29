@@ -15,6 +15,8 @@ import skimage.util
 import matplotlib.cm as cm
 import os
 
+from sklearn.model_selection import train_test_split
+
 
 
 def np_from_files(files: list, rescale_factor = None, labels = False) -> List[np.ndarray]:
@@ -55,9 +57,9 @@ def save_images(images, folder, base_index):
         
 
 
-def split_images(input_path = "chicago/", output_path = "split/images/"):
+def split_images(x_files, output_path = "split/images/"):
     os.makedirs(output_path, exist_ok = True)
-    x_files = sorted(glob.glob(input_path + "*_image.png"))
+    #x_files = sorted(glob.glob(input_path + "*_image.png"))
     
     # rescale factor of 0.35 to make the proportions similar to the training images
     x = np_from_files(x_files, rescale_factor = 0.35)
@@ -70,9 +72,9 @@ def split_images(input_path = "chicago/", output_path = "split/images/"):
         
 
 
-def split_labels(inpt_path = "chicago/", output_path = "split/labels/"):
+def split_labels(y_files, output_path = "split/labels/"):
     os.makedirs(output_path, exist_ok = True)
-    y_files = sorted(glob.glob('chicago/*_labels.png'))
+    #y_files = sorted(glob.glob('chicago/*_labels.png'))
     
     # rescale factor of 0.35 to make the proportions similar to the training images
     y = np_from_files(y_files, rescale_factor = 0.35, labels = True)
@@ -90,9 +92,22 @@ def split_labels(inpt_path = "chicago/", output_path = "split/labels/"):
 
 
 def main():
-    input_path = "chicago/"
-    split_images(input_path, output_path = "split_quarter/images/")
-    split_labels(input_path, output_path = "split_quarter/labels/")
+    original_i = glob.glob('input/original/image/*.png')
+    original_l = glob.glob('input/original/label/*.png')
+
+    o_train_i, val_i = train_test_split(original_i, test_size=0.3, random_state=42424242)
+    o_train_l, val_l = train_test_split(original_l, test_size=0.3, random_state=42424242)
+    print('i',o_train_i)
+    print('l',o_train_l)
+
+    chicago_i = glob.glob('input/chicago/image/*.png')
+    chicago_l = glob.glob('input/chicago/label/*.png')
+
+    train_i = o_train_i + chicago_i
+    train_l = o_train_l + chicago_l
+
+    split_images(train_i, output_path = "input/ds_aug_small/train/image/")
+    split_labels(train_l, output_path = "input/ds_aug_small/train/label/")
     
 
 if __name__ == "__main__":
