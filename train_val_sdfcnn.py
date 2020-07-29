@@ -87,8 +87,8 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
 
     print("\nCROSS-VALIDATION-RESULTS")
     print("model_name: " + model_name)
-    print("optimizer: " + str(model.optimizer))
-    print("loss: " + str(model.loss))
+    #print("optimizer: " + str(model.optimizer))
+    #print("loss: " + str(model.loss))
     print("epochs: 100, early_stopping_patience = " + str(PATIENCE))
 
 
