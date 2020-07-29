@@ -22,7 +22,7 @@ class SDFMeanIOU(tf.keras.metrics.MeanIoU):
     def __init__(self, num_classes=2):
         super().__init__(num_classes=num_classes)
 
-    def update_state(self, x, y):
-        return super().update_state(tf.cast(x <= 0, tf.float32), tf.cast(y <= 0, tf.float32))
+    def update_state(self, x, y, sample_weight=None):
+        return super().update_state(tf.cast(x <= 0, tf.float32), tf.cast(y <= 0, tf.float32), sample_weight=sample_weight)
 
 
