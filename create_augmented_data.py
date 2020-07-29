@@ -172,7 +172,7 @@ def create_split_ds():
 
 def main():
     #create ds
-    #create_split_ds()
+    create_split_ds()
 
 
 
