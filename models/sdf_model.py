@@ -2,7 +2,8 @@ import preproc.sdf as sdf
 import tensorflow as tf
 import models.unet2 as unet2
 from activations.fanh import get_scaled_tanh
-from metrics.sdf_acc import sdf_accuracy
+from metrics.sdf_acc import sdf_accuracy, sdf_f1, SDFMeanIOU
+
 
 class GenericSDFModel:
 
@@ -41,7 +42,7 @@ def get_baseline_SDFt(loss=None):
     if loss is None:
         loss = 'binary_crossentropy'
     model = unet2.get_model(None, None, 3, do_compile=False, out_activation=tf.keras.activations.tanh)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', sdf_accuracy])
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', sdf_accuracy, sdf_f1, SDFMeanIOU()])
 
     model = GenericSDFModel(model)
 
@@ -50,7 +51,7 @@ def get_baseline_SDFt(loss=None):
 
 def get_flat_tanh_SDFt(loss='mse', alpha=0.1):
     model = unet2.get_model(None, None, 3, do_compile=False, out_activation=get_scaled_tanh(alpha))
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', sdf_accuracy])
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', sdf_accuracy, sdf_f1, SDFMeanIOU()])
 
     model = GenericSDFModel(model, transform_y=get_scaled_tanh(alpha))
 
