@@ -1,6 +1,7 @@
 import preproc.sdf as sdf
 import tensorflow as tf
 import models.unet2 as unet2
+import models.cnn as cnn
 from activations.fanh import get_scaled_tanh
 from metrics.sdf_acc import sdf_accuracy, sdf_f1, SDFMeanIOU
 
@@ -51,6 +52,24 @@ def get_baseline_SDFt(loss=None):
 
 def get_flat_tanh_SDFt(loss='mse', alpha=0.1):
     model = unet2.get_model(None, None, 3, do_compile=False, out_activation=get_scaled_tanh(alpha))
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', sdf_accuracy, sdf_f1, SDFMeanIOU()])
+
+    model = GenericSDFModel(model, transform_y=get_scaled_tanh(alpha))
+
+    return model
+
+
+def get_CNN_SDFt(loss='mse'):
+    model = cnn.get_model(None, None, 3, do_compile=False, out_activation=tf.keras.activations.tanh)
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', sdf_accuracy, sdf_f1, SDFMeanIOU()])
+
+    model = GenericSDFModel(model)
+
+    return model
+
+
+def get_flat_tanh_CNN_SDFt(loss='mse', alpha=0.1):
+    model = cnn.get_model(None, None, 3, do_compile=False, out_activation=get_scaled_tanh(alpha))
     model.compile(optimizer='adam', loss=loss, metrics=['accuracy', sdf_accuracy, sdf_f1, SDFMeanIOU()])
 
     model = GenericSDFModel(model, transform_y=get_scaled_tanh(alpha))
