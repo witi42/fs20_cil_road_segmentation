@@ -95,7 +95,6 @@ def augment_label(label, base_tag, path):
 def main():
     path_train = ('input_full/train/image/', 'input_full/train/label/')
     path_val = ('input_full/val/image/', 'input_full/val/label/')
-    #path_temp = ('input_full/temp/image/', 'input_full/temp/label/')
     
     os.makedirs(path_train[0], exist_ok = True)
     os.makedirs(path_train[1], exist_ok = True)
