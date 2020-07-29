@@ -6,6 +6,7 @@ import preproc.get_data as data
 from  metrics.f1 import f1
 from metrics.f1 import f1_binary
 from submission import model_to_submission as submission
+import datetime
 
 
 import tensorflow as tf
@@ -15,6 +16,7 @@ import os
 
 def fit(model, X_train, Y_train, epochs=2, validation_split=0, validation_data=None, use_class_weight=False,
         checkpoint_datetime=False, checkpoint_suffix="", batch_size=8, verbose=2):
+    
     tf.compat.v1.reset_default_graph()
     tf.random.set_seed(42424242)
     tf.compat.v1.set_random_seed(42424242)
@@ -25,6 +27,10 @@ def fit(model, X_train, Y_train, epochs=2, validation_split=0, validation_data=N
         suffix += str(datetime.datetime.now())
     os.makedirs("checkpoints", exist_ok = True)
     checkpointer = ModelCheckpoint('checkpoints/ckp_{}.h5'.format(suffix), verbose=2, save_best_only=True)
+
+    # os.makedirs("tf_logs", exist_ok = True)
+    # log_dir = "tf_logs/" + model_name + "_" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    # tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
     class_weight = None
     if use_class_weight:
@@ -86,8 +92,8 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
 
     print("\nCROSS-VALIDATION-RESULTS")
     print("model_name: " + model_name)
-    print("optimizer: " + str(model.optimizer))
-    print("loss: " + str(model.loss))
+    #print("optimizer: " + str(model.optimizer))
+    #print("loss: " + str(model.loss))
     print("epochs: 100, early_stopping_patience = 8")
 
 
@@ -129,12 +135,12 @@ def main():
     from models.sdf_model import get_baseline_SDFt, get_flat_tanh_SDFt
 
     model = get_baseline_SDFt('mse')
-    model_name = 'SDF-tanh Baseline with Unet2'
+    model_name = 'SDF-tanh_Baseline_with_Unet2'
     
     cross_val(model, model_name)
 
     model = get_flat_tanh_SDFt()
-    model_name = 'SDF-tanh with scaled tanh (0.1), unet2'
+    model_name = 'SDF-tanh_with_scaled_tanh_(0.1),_unet2'
 
     cross_val(model, model_name)
 
