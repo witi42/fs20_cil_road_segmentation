@@ -38,6 +38,9 @@ class GenericSDFModel:
     def set_weights(self, *args, **kwargs):
         return self.model.set_weights(*args, **kwargs)
 
+    def load_weights(self, *args, **kwargs):
+        return self.model.load_weights(*args, **kwargs)
+
 
 def get_baseline_SDFt(loss=None):
     if loss is None:
