@@ -68,6 +68,9 @@ class tf_unet():
             self.model.load_weights(checkpoint)
         else:
             self.model = model
+
+    def load_weights(path):
+        self.model.load_weights(path)
   
 
     def predict(self, x):
