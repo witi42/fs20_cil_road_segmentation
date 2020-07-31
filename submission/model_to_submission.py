@@ -5,6 +5,7 @@ import numpy as np
 import glob
 import os
 from submission import mask_to_submission
+import postproc.crf as crf
 
 def create(model, sub_name, transform_pred=None):
     x, x_names = data.get_test_data()
@@ -21,6 +22,37 @@ def create(model, sub_name, transform_pred=None):
             pred = transform_pred(pred)
         else:
             pred = pred.reshape(608, 608)
+        pred = (pred > 0.5).astype(np.uint8)
+
+        plt.imsave("output/" + name, pred, cmap=cm.gray)
+
+    if not os.path.exists('submission_csv'):
+        os.makedirs('submission_csv')
+    submission_filename = 'submission_csv/' + sub_name + '.csv'
+    image_filenames = glob.glob('output/*.png')
+
+    mask_to_submission.masks_to_submission(submission_filename, image_filenames)
+
+
+def create_crf(model, sub_name):
+    x, x_names = data.get_test_data()
+
+    if not os.path.exists('output'):
+        os.makedirs('output')
+
+    for i in range(len(x_names)):
+        name = x_names[i][18:]
+        print(name)
+
+        pred = model.predict(x[i:i + 1])
+        pred = pred.reshape(608, 608)
+        pred = crf.crf(x[i], pred,
+                   steps=10,
+                   gauss_sxy=2,
+                   pairwise_sxy=40,
+                   rgb_sxy=11,
+                   pairwise_compat=[[0,50], [10,0]]
+        )
         pred = (pred > 0.5).astype(np.uint8)
 
         plt.imsave("output/" + name, pred, cmap=cm.gray)
