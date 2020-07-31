@@ -2,7 +2,7 @@
 https://gitlab.ethz.ch/robinw/fs20_cil_road_segmentation
 
 ## Dependencies and Environment
-Our conda-environment (Linux) is provided in *environment.yml*
+Our conda-environment (Linux) is provided in *environment.yml*. Create the environment (*conda env create -f environment.yml -n RS && conda activate RS*) of install the packages in *requirements.txt*.
 
 ## Prepare Data
 ### Download
@@ -23,12 +23,12 @@ Download and unpack the chicago dataset from [GoogleDrive](https://drive.google.
 
 
 ### Create Splits
-Now create the dataset splits (train, validation) for different levels of augmentation can be create by running *python create_augmented_data_small.py*. This will create the folders *input/ds/* and *input/ds_aug_small/* containing datests with the augmented images.
+The dataset splits (train, validation) for different levels of augmentation can be create by running *python create_augmented_data_small.py*. This will create the folders *input/ds/* and *input/ds_aug_small/* containing datests with the augmented images.
 
 (If you want to run training with *itermediate* or *large* augmentation run *python create_augmented_data.py*. Note however, this requires about 60GB of free disk storage)
 
 # Train Model and create Submission
-To recreate our best results, look in section **Training with Augmentation (BEST RESULTS)**.
+To recreate our best results, look in section **Training with Augmentation (BEST RESULTS)** (*python train_for_submission_augmentation_cnn.py*).
 For all of these files submissions will automatically be created and can be found in *submission_csv/*. 
 
 ## Crossvalidation on Original Data
@@ -55,9 +55,10 @@ python
 python
 * *train_for_submission.py*
 
-### Training with Augmentation (BEST RESULTS)
+### Training with Augmentation and Postprocessing (BEST RESULTS)
 python
-* *train_for_submission_augmentation_cnn.py* - trains with all levels of augmentation. Comment out corresponding sections if only one level of augmentation should be used.
+* *train_for_submission_augmentation_cnn.py* - trains with small level of augmentation. Remove the comments on the the *# medium augmentation* or the *# large augmentation* sections in order to train with those levels of augmentation.
+One submission file with and one submission file without postprocessing is automatically created in *submission_csv/*.
 
 
 
@@ -65,7 +66,7 @@ python
 To combine multiple solutions and average them, copy the submission files you want to bag (the `.csv`s that you would submit to kaggle) and run `python combine_submissions.py`. Additionally, you can set the threshhold which is used to binarize the mean score in *combine_submissions.py*. The output will then be saved in the director *ensemble-test*, along with visualisations of the predicted mask overlayed on the test images.
 
 ## Postprocessing
-For post-processing, you need to `pip install pydensecrf` -- this package is unfortunately not available in conda. 
 Given an image and its predicted labels, you can then use the crf function in the crf modules to perform post-processing as follows:
 `new_predictions = crf.crf(image, prediction)` 
 and optionally change the hyperparameters using the provided parameters.
+*train_for_submission_augmentation_cnn.py* automatically creates a submission with postprocessing.

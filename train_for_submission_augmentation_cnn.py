@@ -67,42 +67,44 @@ def main():
 
     train, val = data_g.get_train_val_iterators(aug='small')
 
+    #get model
     model = cnn.get_model(None, None, 3, do_compile=False)
 
     model.compile(optimizer='adam', loss=loss,
                   metrics=['accuracy', f1, tf.keras.metrics.MeanIoU(num_classes=2)])
     model_name = 'cnn_dice_EXTDATA_augmentation_small'
+    #train model
     train_sub(model, model_name, train, val, epochs=100, verbose=2)
 
 
-    # medium augmentation
+    # # medium augmentation
 
-    from losses import dice
-    loss = dice.dice_loss
+    # from losses import dice
+    # loss = dice.dice_loss
 
-    train, val = data_g.get_train_val_iterators(aug='medium')
+    # train, val = data_g.get_train_val_iterators(aug='medium')
 
-    model = cnn.get_model(None, None, 3, do_compile=False)
+    # model = cnn.get_model(None, None, 3, do_compile=False)
 
-    model.compile(optimizer='adam', loss=loss,
-                  metrics=['accuracy', f1, tf.keras.metrics.MeanIoU(num_classes=2)])
-    model_name = 'cnn_dice_EXTDATA_augmentation_medium'
-    train_sub(model, model_name, train, val, epochs=100, verbose=2)
+    # model.compile(optimizer='adam', loss=loss,
+    #               metrics=['accuracy', f1, tf.keras.metrics.MeanIoU(num_classes=2)])
+    # model_name = 'cnn_dice_EXTDATA_augmentation_medium'
+    # train_sub(model, model_name, train, val, epochs=100, verbose=2)
 
 
-    # large augmentation
+    # # large augmentation
 
-    from losses import dice
-    loss = dice.dice_loss
+    # from losses import dice
+    # loss = dice.dice_loss
 
-    train, val = data_g.get_train_val_iterators(aug='large')
+    # train, val = data_g.get_train_val_iterators(aug='large')
 
-    model = cnn.get_model(None, None, 3, do_compile=False)
+    # model = cnn.get_model(None, None, 3, do_compile=False)
 
-    model.compile(optimizer='adam', loss=loss,
-                  metrics=['accuracy', f1, tf.keras.metrics.MeanIoU(num_classes=2)])
-    model_name = 'cnn_dice_EXTDATA_augmentation_large'
-    train_sub(model, model_name, train, val, epochs=100, verbose=2)
+    # model.compile(optimizer='adam', loss=loss,
+    #               metrics=['accuracy', f1, tf.keras.metrics.MeanIoU(num_classes=2)])
+    # model_name = 'cnn_dice_EXTDATA_augmentation_large'
+    # train_sub(model, model_name, train, val, epochs=100, verbose=2)
 
 
 
