@@ -76,7 +76,7 @@ def split_images(input_path = "chicago/", output_path = "split/images/"):
 
 
 def split_labels(inpt_path = "chicago/", output_path = "split/labels/"):
-    os.makedirs("split/labels/", exist_ok = True)
+    os.makedirs(output_path, exist_ok = True)
     y_files = sorted(glob.glob('chicago/*_labels.png'))
     
     # rescale factor of 0.35 to make the proportions similar to the training images
@@ -95,9 +95,10 @@ def split_labels(inpt_path = "chicago/", output_path = "split/labels/"):
 
 
 def main():
-    input_path = "chicago/"
-    split_images(input_path, output_path = "split/images/")
-    split_labels(input_path, output_path = "split/labels/")
+    input_path = "generate_data/chicago/"
+    output_path = "input/chicago/"
+    split_images(input_path, output_path = output_path)
+    split_labels(input_path, output_path = output_path)
     
 
 if __name__ == "__main__":

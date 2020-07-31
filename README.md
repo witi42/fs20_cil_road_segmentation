@@ -17,7 +17,7 @@ Download and unpack the chicago dataset from [GoogleDrive](https://drive.google.
         * image/
         * label/
 
-(Instead of downloading the processed images from drive you can also download the original *chicago.zip* from [zenodo](https://zenodo.org/record/1154821#.XyQB2nUzZhl). Process the images with *python TOMMY TODO*)
+(Instead of downloading the processed images from drive you can also download the original *chicago.zip* from [zenodo](https://zenodo.org/record/1154821#.XyQB2nUzZhl). Process the images with *process_original_chicago.py*, to be found in the root folder)
 
 ### Create Splits
 Now create the dataset splits (train, validation) with *python 
