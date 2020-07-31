@@ -38,7 +38,11 @@ def train_sub(model, model_name, train, val, epochs=100, batch_size=8, verbose=2
 
     model.load_weights(model_path_name)
 
+    # create normal submission
     submission.create(model, model_name)
+
+    # create submission with postprocessing
+    submission.create_crf(model, model_name + '_crf')
 
 
 
