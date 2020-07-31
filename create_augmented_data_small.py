@@ -100,11 +100,49 @@ def create_split_ds():
     for f in val_l:
         shutil.copy(f, src_val[1])
 
+def create_all_ds():
+
+    src = ('input/ds/train/image/', 'input/ds/train/label/')
+    src_val = ('input/ds/val/image/', 'input/ds/val/label/')
+
+
+    #create folders
+    os.makedirs(src_val[0], exist_ok = True)
+    os.makedirs(src_val[1], exist_ok = True)
+    os.makedirs(src[0], exist_ok = True)
+    os.makedirs(src[1], exist_ok = True)
+
+
+    original_i = glob.glob('input/original/image/*.png')
+    original_l = glob.glob('input/original/label/*.png')
+
+    chicago_i = glob.glob('input/chicago/image/*.png')
+    chicago_l = glob.glob('input/chicago/label/*.png')
+
+    train_i = original_i + chicago_i
+    train_l = original_l + chicago_l
+
+    val_i = original_i
+    val_l = original_l
+
+    #copy files
+    for f in train_i:
+        shutil.copy(f, src[0])
+    for f in train_l:
+        shutil.copy(f, src[1])
+    for f in val_i:
+        shutil.copy(f, src_val[0])
+    for f in val_l:
+        shutil.copy(f, src_val[1])
+
+
 
 
 def main():
-    #create ds
+    #create ds with split for validation
     create_split_ds()
+    # #no split
+    # create_all_ds()
 
 
 
