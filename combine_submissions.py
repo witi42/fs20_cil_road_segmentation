@@ -5,6 +5,7 @@ import matplotlib.image as mpimg
 import numpy as np
 import glob
 import postproc.save_submission as subm
+from visualize.show_img import blend_image, blend_red
 
 files = glob.glob('submissions_to_combine/*.csv')
 
@@ -13,6 +14,8 @@ w = h
 imgwidth = int(math.ceil((600.0/w))*w)
 imgheight = int(math.ceil((600.0/h))*h)
 nc = 3
+
+THRESHOLD = 0.3
 
 preds = {}
 
@@ -60,4 +63,18 @@ preds_names = list(map(lambda k: f"input/test_images/test_{int(k)}.png", preds.k
 
 print('saving new preds')
 print(preds_names)
-subm.save_predictions(preds_np, preds_names, 'ensemble-test', allow_overwrite=True)
+subm.save_predictions(preds_np > THRESHOLD, preds_names, f'ensemble-test', allow_overwrite=True)
+print("\n\ncreating blends")
+import preproc.get_data as data
+import matplotlib.pyplot as plt
+import os
+x_test, x_test_names = data.get_test_data(False)
+
+
+os.makedirs('ensemble-test/blended', exist_ok=True)
+
+i = 0
+for key, pred in sorted(map(lambda x: (str(int(x[0])), x[1]), preds.items())):
+    print(key, x_test_names[i])
+    plt.imsave(f"ensemble-test/blended/{key}.png", blend_red(x_test[i], pred).astype(np.uint8))
+    i += 1
