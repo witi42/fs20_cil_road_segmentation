@@ -48,18 +48,17 @@ def main():
 
     # # no augmentation
 
-    # # sdf flat tanh
-    # train, val = data_g.get_train_val_iterators(aug=None)
+    # sdf flat tanh
+    train, val = data_g.get_train_val_iterators(aug=None)
 
-    # model = get_flat_tanh_CNN_SDFt()
-    # model_name = 'SDF_cnn_scaled_tanh_EXTDATA_noaug'
+    model = get_flat_tanh_CNN_SDFt()
+    model_name = 'SDF_cnn_scaled_tanh_EXTDATA_noaug'
 
-    # train_sub(model, model_name, train, val, epochs=100, verbose=1)
-    # submission.create(model, model_name)
+    train_sub(model, model_name, train, val, epochs=100, verbose=1)
+    submission.create(model, model_name)
 
 
     # sdf normal tanh
-
     train, val = data_g.get_train_val_iterators(aug=None)
 
     model = get_CNN_SDFt()

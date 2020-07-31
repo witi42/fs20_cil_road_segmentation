@@ -53,18 +53,22 @@ def main():
     msebce = lambda x, y: tf.keras.losses.MSE(x, y) + convert_to_sdft_loss(tf.keras.losses.binary_crossentropy)(x, y)
     msedice = lambda x, y: tf.keras.losses.MSE(x, y) + convert_to_sdft_loss(dice_loss)(x, y)
 
-    # model = get_CNN_SDFt(loss=msedice)
-    # model_name = 'SDF-tanh_msedice_loss'
+    
+    # train with crossentropy
+    model = get_CNN_SDFt(loss=msedice)
+    model_name = 'SDF-tanh_msedice_loss'
 
-    # train_sub(model, model_name, train, val, epochs=100, verbose=1)
+    train_sub(model, model_name, train, val, epochs=100, verbose=1)
 
 
+    # train with dice loss
     model = get_flat_tanh_CNN_SDFt(loss=msedice)
     model_name = 'SDF-flat_tanh_msedice_loss'
 
     train_sub(model, model_name, train, val, epochs=100, verbose=1)
 
 
+    # # train with augmentation
     # for _aug in ['small', 'medium', 'large']:
     #     train, val = data_g.get_train_val_iterators(aug=_aug)
     #     model = get_flat_tanh_CNN_SDFt()
@@ -79,9 +83,6 @@ def main():
     #     model_name = 'SDF_cnn_tanh_EXTDATA_aug-' + _aug
 
     #     train_sub(model, model_name, train, val, epochs=100, verbose=1)
-    #     submission.create(model, model_name)
-
-
 
 
 if __name__ == "__main__":
