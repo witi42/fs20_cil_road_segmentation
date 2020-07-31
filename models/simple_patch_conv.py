@@ -14,7 +14,7 @@ def get_model(IMG_HEIGHT, IMG_WIDTH, IMG_CHANNELS, num_filters = 1024, do_compil
     x = BatchNormalization()(x)
     outputs = Conv2D(1, (1, 1), activation='sigmoid')(x)                                                # classify on each convoluted patch
     if do_upsampling:
-        outputs = UpSampling2D(size = (16, 16), interpolation = 'nearest')(outputs)                     # upsample to original image size
+        outputs = UpSampling2D(size = (16, 16), interpolation = 'nearest')(outputs)                     # upsample to original image size, if desired
     
     model = Model(inputs=[inputs], outputs=[outputs])
     if compile:

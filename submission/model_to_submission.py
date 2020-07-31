@@ -6,7 +6,7 @@ import glob
 import os
 from submission import mask_to_submission
 
-def create(model, sub_name):
+def create(model, sub_name, transform_pred=None):
     x, x_names = data.get_test_data()
 
     if not os.path.exists('output'):
@@ -17,7 +17,10 @@ def create(model, sub_name):
         print(name)
 
         pred = model.predict(x[i:i + 1])
-        pred = pred.reshape(608, 608)
+        if transform_pred != None:
+            pred = transform_pred(pred)
+        else:
+            pred = pred.reshape(608, 608)
         pred = (pred > 0.5).astype(np.uint8)
 
         plt.imsave("output/" + name, pred, cmap=cm.gray)
