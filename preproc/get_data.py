@@ -61,16 +61,16 @@ def make_groundtruth_binary(y, threshold = 0.5):
 
 # get training data as ndarrays from original dataset
 def get_training_data(normalize = True) -> (np.ndarray, np.ndarray):
-    x_files = sorted(glob.glob('input/training/images/*.png'))
-    y_files = sorted(glob.glob('input/training/groundtruth/*.png'))
+    x_files = sorted(glob.glob('input/original/image/*.png'))
+    y_files = sorted(glob.glob('input/original/label/*.png'))
 
     return get_training_data_path(x_files, y_files, normalize)
 
 
 # get training data as ndarrays from additional dataset
 def get_training_data2(normalize=True) -> (np.ndarray, np.ndarray):
-    x_files = sorted(glob.glob('input/training/images_aug/*.png'))
-    y_files = sorted(glob.glob('input/training/groundtruth_aug/*.png'))
+    x_files = sorted(glob.glob('input/chicago/image/*.png'))
+    y_files = sorted(glob.glob('input/chicago/label/*.png'))
 
     return get_training_data_path(x_files, y_files, normalize)
 

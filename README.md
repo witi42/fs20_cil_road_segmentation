@@ -28,20 +28,39 @@ Now create the dataset splits (train, validation) for different levels of augmen
 (If you want to run training with *itermediate* or *large* augmentation run *python create_augmented_data.py*. Note however, this requires about 60GB of free disk storage)
 
 # Train Model and create Submission
+To recreate our best results, look in section **Training with Augmentation (BEST RESULTS)**.
+For all of these files submissions will automatically be created and can be found in *submission_csv/*. 
 
 ## Crossvalidation on Original Data
 
 5-fold cross-validation can be run on the different models by executing the follwing files
 
+python
 * *train_val_unet.py* - unet with all losses
 * *train_val_cnn.py* - deep unet with all losses
 * *train_val_sdfbasic.py* - novel sdf models with unet
 * *train_val_sdfcnn.py* - novel sdf models with deep unet
 * *train_val_sdf_losses.py* - novel sdf models with deep unet and additional dice and crossentropy loss
 
+## Training on Chicago
+For the scripts of this section, the Original data is split into 70 images for training and 30 for validation. The Chicago data is added to the training data.
+
+### Training wihtout Augmentation
+**Novel Solution:**
+python
+* *train_for_submission_novel.py*
+* *train_for_submission_novel_dice.py*
+
+**Unet with different losses** (this requires up to 32GB RAM, files from training with augmentation use an iterator instead so 16GB or less is sufficient)
+python
+* *train_for_submission.py*
+
+### Training with Augmentation (BEST RESULTS)
+python
+* *train_for_submission_augmentation_cnn.py* - trains with all levels of augmentation. Comment out corresponding sections if only one level of augmentation should be used.
+
+
 
 ## Ensemble Model
 To combine multiple solutions and average them, copy the submission files you want to bag (the *.csv*s that you would submit to kaggle) and run *python combine_submissions.py*. Additionally, you can set the threshhold which is used to binarize the mean score in *combine_submissions.py*. The output will then be saved in the director *ensemble-test*, along with visualisations of the predicted mask overlayed on the test images.
 
-
-## 

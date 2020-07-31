@@ -7,6 +7,7 @@ from PIL import Image
 from tensorflow.keras.utils import Sequence
 
 
+# iterate over dataset provided as images stored in folders
 class DataGenerator(Sequence):
 
     def __init__(self, images, labels, batch_size=8):
