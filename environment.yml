@@ -191,6 +191,7 @@ dependencies:
     - future==0.18.2
     - googleapis-common-protos==1.52.0
     - promise==2.3
+    - pydensecrf==1.0rc3
     - tensorflow-examples==335ab713ed7361f0a476c457eb4fe557e435d72d-
     - tensorflow-metadata==0.22.2
     - tfds-nightly==3.2.1.dev202007280106
