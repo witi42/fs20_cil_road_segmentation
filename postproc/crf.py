@@ -17,7 +17,7 @@ def crf(original, pred, steps=3, gauss_sxy=2, pairwise_sxy=40, rgb_sxy=11, pairw
     d.setUnaryEnergy(U)
 
     if isinstance(pairwise_compat, list):
-    pairwise_compat = np.asarray(pairwise_compat, dtype=np.float32)
+        pairwise_compat = np.asarray(pairwise_compat, dtype=np.float32)
 
     d.addPairwiseGaussian(sxy=gauss_sxy, compat=20, kernel=dcrf.DIAG_KERNEL,
                         normalization=dcrf.NORMALIZE_SYMMETRIC)
