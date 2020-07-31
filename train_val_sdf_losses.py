@@ -133,8 +133,8 @@ def main():
     from losses.sdf_adapter import convert_to_sdft_loss
     from losses.dice import dice_loss
 
-    msebce = lambda x, y: tf.keras.losses.MSE(x, y) + convert_to_sdft_loss(tf.keras.losses.binary_crossentropy)
-    msedice = lambda x, y: tf.keras.losses.MSE(x, y) + convert_to_sdft_loss(dice_loss)
+    msebce = lambda x, y: tf.keras.losses.MSE(x, y) + convert_to_sdft_loss(tf.keras.losses.binary_crossentropy)(x, y)
+    msedice = lambda x, y: tf.keras.losses.MSE(x, y) + convert_to_sdft_loss(dice_loss)(x, y)
     for name, l in {'MSE+BCE': msebce, 'MSE+Dice': msedice}.items():
         model = get_CNN_SDFt(loss=msebce)
         model_name = 'SDF-tanh with Deep Unet ("CNN"),' + name + 'loss'
