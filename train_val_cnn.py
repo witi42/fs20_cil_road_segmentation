@@ -19,7 +19,7 @@ def fit(model, X_train, Y_train, epochs=2, validation_split=0, validation_data=N
     tf.random.set_seed(42424242)
     tf.compat.v1.set_random_seed(42424242)
 
-    earlystopper = EarlyStopping(patience=8, verbose=2)
+    earlystopper = EarlyStopping(patience=20, verbose=2)
     suffix = checkpoint_suffix
     if checkpoint_datetime:
         suffix += str(datetime.datetime.now())
@@ -117,12 +117,10 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
     print("\nAVERAGE-METRICS")
     print(average_metrics)
 
-    # reload best model weights
-    #est_model_index = get_min_index(best_losses)
+    # reload first split model weights
     model.load_weights("checkpoints/ckp_" + model_name + '_crossval-k' + '0' + ".h5")
-    submission.create(model, "checkpoints/ckp_" + model_name + '_crossval-k' + '0' + ".h5")
-
-    #print("best model: checkpoints/ckp_" + model_name + '_crossval-k' + str(best_model_index) + ".h5")
+    # create submission
+    submission.create(model, model_name + '_crossval-k' + '0' + ".h5")
 
 
 
@@ -132,19 +130,10 @@ def main():
 
     # u_net_cross_entropy
     model = cnn.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
     model_name = 'cnn_cross_entropy'
     
     cross_val(model, model_name)
-
-
-    # u_net_balanced_cross_entropy_class_weight
-    model = cnn.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
-    model_name = 'cnn_balanced_cross_entropy_class_weight'
-    
-    cross_val(model, model_name, use_class_weight=True)
-
 
 
     # dice
@@ -152,7 +141,7 @@ def main():
     loss = dice.dice_loss
 
     model = cnn.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
     model_name = 'cnn_dice'
 
     cross_val(model, model_name) 
@@ -162,7 +151,7 @@ def main():
     from losses import focal
     loss = focal.focal_loss
     model = cnn.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
     model_name = 'cnn_focal'
 
     cross_val(model, model_name) 
@@ -172,10 +161,19 @@ def main():
     from losses import lovasz
     loss = lovasz.lovasz_loss
     model = cnn.get_model(None, None, 3, do_compile=False)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1, f1_binary])
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
     model_name = 'cnn_lovasz'
     
-    cross_val(model, model_name)                                                        
+    cross_val(model, model_name)   
+
+
+
+    # u_net_balanced_cross_entropy_class_weight
+    model = cnn.get_model(None, None, 3, do_compile=False)
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
+    model_name = 'cnn_balanced_cross_entropy_class_weight'
+    
+    cross_val(model, model_name, use_class_weight=True)                                                     
 
 
 

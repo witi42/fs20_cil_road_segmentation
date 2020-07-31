@@ -57,6 +57,11 @@ def blend_image(image, mask, ratio = 0.7) -> np.ndarray:
     return image * mask * ratio + (1 - ratio) * image
 
 
+def blend_red(image, mask, ratio=0.7):
+    blended = image.copy()
+    blended[:,:,0] = blended[:,:,0] * (1 - mask) * ratio + (1 - ratio) * blended[:,:,0]
+
+    return blended
 
 def duplicate_channels(img, target_channels):
     """
