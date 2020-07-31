@@ -35,7 +35,7 @@ def main():
 
     model_pred = tf_unet.tf_unet(checkpoint='checkpoints/tf_unet.h5')
 
-    submission.create_from_split(model_pred, 'tf_unet_sparsecrossentropy')
+    submission.create_with_split(model_pred, 'tf_unet_sparsecrossentropy')
 
 
 if __name__ == "__main__":
