@@ -2,7 +2,7 @@
 https://gitlab.ethz.ch/robinw/fs20_cil_road_segmentation
 
 ## Dependencies and Environment
-Install the conda environ
+Our conda-environment (Linux) is provided in *environment.yml*
 
 ## Prepare Data
 ### Download

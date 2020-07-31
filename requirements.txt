@@ -1,16 +1,13 @@
-#conda install --file requirements.txt
-
-python=3.6
+python==3.6
 numpy
 pillow
 matplotlib
-tensorflow=2.0.0
-#tensorflow-gpu=2.0.0
+tensorflow-gpu==2.1.0
 jupyterlab
 scikit-learn
 scikit-image
 pandas
 tqdm
 
-
-pip install -q git+https://github.com/tensorflow/examples.git
+# also run the following if the tf_unet should be tested (this is not neccessary for our main submissions)
+# pip install -q git+https://github.com/tensorflow/examples.git
