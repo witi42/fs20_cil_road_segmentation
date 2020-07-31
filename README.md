@@ -62,5 +62,10 @@ python
 
 
 ## Ensemble Model
-To combine multiple solutions and average them, copy the submission files you want to bag (the *.csv*s that you would submit to kaggle) and run *python combine_submissions.py*. Additionally, you can set the threshhold which is used to binarize the mean score in *combine_submissions.py*. The output will then be saved in the director *ensemble-test*, along with visualisations of the predicted mask overlayed on the test images.
+To combine multiple solutions and average them, copy the submission files you want to bag (the `.csv`s that you would submit to kaggle) and run `python combine_submissions.py`. Additionally, you can set the threshhold which is used to binarize the mean score in *combine_submissions.py*. The output will then be saved in the director *ensemble-test*, along with visualisations of the predicted mask overlayed on the test images.
 
+## Postprocessing
+For post-processing, you need to `pip install pydensecrf` -- this package is unfortunately not available in conda. 
+Given an image and its predicted labels, you can then use the crf function in the crf modules to perform post-processing as follows:
+`new_predictions = crf.crf(image, prediction)` 
+and optionally change the hyperparameters using the provided parameters.
