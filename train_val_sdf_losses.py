@@ -55,6 +55,7 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
     
     if load_training_data:
         x, y = data.get_training_data()
+    print(x.shape)
     
     kf = KFold(n_splits=5, shuffle=True, random_state=42424242)
     
@@ -120,10 +121,10 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
     print("\nAVERAGE-METRICS")
     print(average_metrics)
 
-    # reload best model weights
-    #est_model_index = get_min_index(best_losses)
-    #model.load_weights("checkpoints/ckp_" + model_name + '_crossval-k' + str(best_model_index) + ".h5")
-    #print("best model: checkpoints/ckp_" + model_name + '_crossval-k' + str(best_model_index) + ".h5")
+    # reload first split model weights
+    model.load_weights("checkpoints/ckp_" + model_name + '_crossval-k' + '0' + ".h5")
+    # create submission
+    submission.create(model, model_name + '_crossval-k' + '0' + ".h5")
 
 
 
@@ -145,9 +146,6 @@ def main():
         model_name = 'SDF-tanh with scaled tanh (0.1), Deep Unet ("CNN"),' + name + 'Loss'
 
         cross_val(model, model_name)
-
-
-
 
 
 

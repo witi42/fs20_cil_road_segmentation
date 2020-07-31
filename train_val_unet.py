@@ -6,32 +6,25 @@ import preproc.get_data as data
 from  metrics.f1 import f1
 from metrics.f1 import f1_binary
 from submission import model_to_submission as submission
-import datetime
 
 
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import os
 
-PATIENCE = 20
 
 def fit(model, X_train, Y_train, epochs=2, validation_split=0, validation_data=None, use_class_weight=False,
         checkpoint_datetime=False, checkpoint_suffix="", batch_size=8, verbose=2):
-    
     tf.compat.v1.reset_default_graph()
     tf.random.set_seed(42424242)
     tf.compat.v1.set_random_seed(42424242)
 
-    earlystopper = EarlyStopping(patience=PATIENCE, verbose=2)
+    earlystopper = EarlyStopping(patience=20, verbose=2)
     suffix = checkpoint_suffix
     if checkpoint_datetime:
         suffix += str(datetime.datetime.now())
     os.makedirs("checkpoints", exist_ok = True)
     checkpointer = ModelCheckpoint('checkpoints/ckp_{}.h5'.format(suffix), verbose=2, save_best_only=True)
-
-    # os.makedirs("tf_logs", exist_ok = True)
-    # log_dir = "tf_logs/" + model_name + "_" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    # tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
     class_weight = None
     if use_class_weight:
@@ -54,7 +47,7 @@ def get_min_index(l):
     return min_index
 
 
-def cross_val(model, model_name, load_training_data=True, x=None, y=None, augment_data_func=None, use_class_weight=False, epochs=100, batch_size=4, verbose=2):
+def cross_val(model, model_name, load_training_data=True, x=None, y=None, augment_data_func=None, use_class_weight=False, epochs=100, batch_size=8, verbose=2):
     print('\n\n\n' '5-Cross-Validation: ' + model_name)
     
     if load_training_data:
@@ -93,9 +86,9 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
 
     print("\nCROSS-VALIDATION-RESULTS")
     print("model_name: " + model_name)
-    #print("optimizer: " + str(model.optimizer))
-    #print("loss: " + str(model.loss))
-    print("epochs: 100, early_stopping_patience = " + str(PATIENCE))
+    print("optimizer: " + str(model.optimizer))
+    print("loss: " + str(model.loss))
+    print("epoches: 100, early_stopping_patience = 8")
 
 
     print('\nMETRICS')
@@ -124,7 +117,6 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
     print("\nAVERAGE-METRICS")
     print(average_metrics)
 
-    
     # reload first split model weights
     model.load_weights("checkpoints/ckp_" + model_name + '_crossval-k' + '0' + ".h5")
     # create submission
@@ -134,17 +126,54 @@ def cross_val(model, model_name, load_training_data=True, x=None, y=None, augmen
 
 
 def main():
-    from models.sdf_model import get_baseline_SDFt, get_flat_tanh_SDFt
+    from models import unet2 as unet
 
-    model = get_baseline_SDFt('mse')
-    model_name = 'SDF-tanh_Baseline_with_Unet2'
+    # u_net_cross_entropy
+    model = unet.get_model(None, None, 3, do_compile=False)
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
+    model_name = 'unet_cross_entropy'
     
     cross_val(model, model_name)
 
-    model = get_flat_tanh_SDFt()
-    model_name = 'SDF-tanh_with_scaled_tanh_(0.1),_unet2'
 
-    cross_val(model, model_name)
+    # dice
+    from losses import dice
+    loss = dice.dice_loss
+
+    model = unet.get_model(None, None, 3, do_compile=False)
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
+    model_name = 'unet_dice'
+
+    cross_val(model, model_name) 
+
+
+    # u_net_focal
+    from losses import focal
+    loss = focal.focal_loss
+    model = unet.get_model(None, None, 3, do_compile=False)
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
+    model_name = 'unet_focal'
+
+    cross_val(model, model_name) 
+
+
+    # u_net_lovasz
+    from losses import lovasz
+    loss = lovasz.lovasz_loss
+    model = unet.get_model(None, None, 3, do_compile=False)
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
+    model_name = 'unet_lovasz'
+    
+    cross_val(model, model_name)   
+
+
+
+    # u_net_balanced_cross_entropy_class_weight
+    model = unet.get_model(None, None, 3, do_compile=False)
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', tf.keras.metrics.MeanIoU(num_classes=2), f1])
+    model_name = 'unet_balanced_cross_entropy_class_weight'
+    
+    cross_val(model, model_name, use_class_weight=True)                                                     
 
 
 
